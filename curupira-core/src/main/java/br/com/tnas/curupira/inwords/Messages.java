@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  * @author <a href="mailto:hprange@gmail.com">Henrique Prange</a>
  */
 final class Messages {
-	private static final String BUNDLE_NAME = "br.com.caelum.stella.inwords.messages";
+	private static final String BUNDLE_NAME = "br.com.tnas.curupira.inwords.messages";
 
 	static final Locale LOCALE_PT_BR = new Locale("pt", "BR");
 

@@ -226,8 +226,10 @@ public class TituloEleitoralValidator implements Validator<String> {
 	}
 
 	public String generateRandomValid() {
+		final String[] digitosEstados = Estado.codigosEleitorais();
+		
 		final String digitosSequenciais = new DigitoGenerator().generate(8);
-		final String digitosEstado = String.format("%02d", new Random().nextInt(28) + 1);
+		final String digitosEstado = digitosEstados[new Random().nextInt(digitosEstados.length)];
 		final String tituloSemDigito = digitosSequenciais + digitosEstado;
 		final String tituloComDigito = tituloSemDigito + calculaDigitos(tituloSemDigito);
 		if (isFormatted) {

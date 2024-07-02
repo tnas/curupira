@@ -1,5 +1,7 @@
 package br.com.tnas.curupira.type;
 
+import java.util.stream.Stream;
+
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.validation.ie.IEAcreValidator;
 import br.com.tnas.curupira.validation.ie.IEAlagoasValidator;
@@ -268,5 +270,12 @@ public enum Estado {
 		}
 		
 		throw new IllegalStateException("Não foi possível determinar o estado a partir do código eleitoral " + codigo);
+	}
+	
+	public static String[] codigosEleitorais() {
+		return Stream.of(Estado.values())
+					.map(Estado::getCodigoEleitoral)
+					.toList()
+					.toArray(new String[0]);
 	}
 }
