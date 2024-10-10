@@ -21,6 +21,16 @@ public abstract class DocumentoValidator implements Validator<String> {
 	}
 
 	@Override
+    public void assertValid(String value) {
+    	
+        var errors = this.invalidMessagesFor(value);
+        
+		if (!errors.isEmpty()) {
+            throw new InvalidStateException(errors);
+        }
+    }
+	
+	@Override
 	public boolean isEligible(String value) {
 		return Objects.nonNull(value) && !value.isBlank() && (isFormatted ? formatedPattern : unformatedPattern).matcher(value).matches();
 	}
@@ -28,7 +38,7 @@ public abstract class DocumentoValidator implements Validator<String> {
 	protected abstract String getFormatedMask();
 	
 	protected abstract String getUnformatedMask();
-
+	
 	public Pattern getFormatedPattern() {
 		return formatedPattern;
 	}

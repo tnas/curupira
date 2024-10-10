@@ -64,17 +64,6 @@ public class RenavamValidator extends DocumentoValidator {
         this.messageProducer = messageProducer;
     }
 
-    public void assertValid(String renavam) {
-        List<ValidationMessage> errors = getInvalidValues(renavam);
-        if (!errors.isEmpty()) {
-			throw new InvalidStateException(errors);
-		}
-    }
-
-    public List<ValidationMessage> invalidMessagesFor(String renavam) {
-        return getInvalidValues(renavam);
-    }
-
     /**
      * Valida se a cadeia está de acordo com as regras de validação do Renavam.
      * 
@@ -85,7 +74,8 @@ public class RenavamValidator extends DocumentoValidator {
      * @return Uma lista de {@linkplain ValidationMessage} com os erros encontrados
      *         ou uma lista vazia, caso não haja nenhum erro.
      */
-    private List<ValidationMessage> getInvalidValues(String renavam) {
+    @Override
+    public List<ValidationMessage> invalidMessagesFor(String renavam) {
         List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
 		if (renavam != null) {
 

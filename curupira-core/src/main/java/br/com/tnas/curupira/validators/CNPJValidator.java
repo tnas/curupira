@@ -73,7 +73,8 @@ public class CNPJValidator extends DocumentoValidator {
 		this.messageProducer = messageProducer;
     }
 
-    private List<ValidationMessage> getInvalidValues(String cnpj) {
+    @Override
+    public List<ValidationMessage> invalidMessagesFor(String cnpj) {
 
     	List<ValidationMessage> errors = new ArrayList<ValidationMessage>();    	
         
@@ -127,18 +128,6 @@ public class CNPJValidator extends DocumentoValidator {
 		
 		return digito1 + digito2;
 	}
-
-    public void assertValid(String cnpj) {
-    	
-        List<ValidationMessage> errors = getInvalidValues(cnpj);
-		if (!errors.isEmpty()) {
-            throw new InvalidStateException(errors);
-        }
-    }
-
-    public List<ValidationMessage> invalidMessagesFor(String cnpj) {
-        return getInvalidValues(cnpj);
-    }
 
 	public String generateRandomValid() {
 		final String cnpjSemDigitos = new DigitoGenerator().generate(12);

@@ -32,6 +32,7 @@ public class AgenciaBancariaValidator extends DocumentoValidator {
 	    }
 	}
 
+	@Override
 	public List<ValidationMessage> invalidMessagesFor(String agencia) {
 		
 		List<ValidationMessage> errors = new ArrayList<ValidationMessage>();

@@ -62,7 +62,8 @@ public class NITValidator extends DocumentoValidator {
         this.isFormatted = isFormatted;
     }
 
-    private List<ValidationMessage> getInvalidValues(String nit) {
+    @Override
+    public List<ValidationMessage> invalidMessagesFor(String nit) {
 		List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
 		if (nit != null) {
 		
@@ -98,17 +99,6 @@ public class NITValidator extends DocumentoValidator {
     private String calculaDigitos(String nitSemDigito) {
     	return new DigitoPara(nitSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
-
-    public void assertValid(String nit) {
-        List<ValidationMessage> errors = getInvalidValues(nit);
-        if (!errors.isEmpty()) {
-			throw new InvalidStateException(errors);
-		}
-    }
-
-    public List<ValidationMessage> invalidMessagesFor(String nit) {
-        return getInvalidValues(nit);
-    }
     
     public String generateRandomValid() {
     	final String nitSemDigito = new DigitoGenerator().generate(10);

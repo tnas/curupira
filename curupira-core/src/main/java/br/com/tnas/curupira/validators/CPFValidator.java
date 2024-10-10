@@ -103,7 +103,8 @@ public class CPFValidator extends DocumentoValidator {
      * @return <code>true</code> se a cadeia é válida ou é nula;
      *         <code>false</code> caso contrario.
      */
-    private List<ValidationMessage> getInvalidValues(String cpf) {
+    @Override
+    public List<ValidationMessage> invalidMessagesFor(String cpf) {
 
         List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
 
@@ -167,17 +168,6 @@ public class CPFValidator extends DocumentoValidator {
             }
         }
         return true;
-    }
-
-    public void assertValid(String cpf) {
-        List<ValidationMessage> errors = getInvalidValues(cpf);
-        if (!errors.isEmpty()) {
-            throw new InvalidStateException(errors);
-        }
-    }
-
-    public List<ValidationMessage> invalidMessagesFor(String cpf) {
-        return getInvalidValues(cpf);
     }
 
     public String generateRandomValid() {

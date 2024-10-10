@@ -115,8 +115,8 @@ public class TituloEleitoralValidator extends DocumentoValidator {
     	this.messageProducer = messageProducer;
     }
     
-
-    private List<ValidationMessage> getInvalidValues(String tituloDeEleitor) {
+    @Override
+    public List<ValidationMessage> invalidMessagesFor(String tituloDeEleitor) {
         List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
         if (tituloDeEleitor != null) { 
         	
@@ -195,17 +195,6 @@ public class TituloEleitoralValidator extends DocumentoValidator {
         return !(codigo >= 01 && codigo <= 28);
     }
 	
-	public void assertValid(String tituloDeEleitor) {
-		List<ValidationMessage> errors = getInvalidValues(tituloDeEleitor);
-		if (!errors.isEmpty()) {
-			throw new InvalidStateException(errors);
-		}
-	}
-
-	public List<ValidationMessage> invalidMessagesFor(String tituloDeEleitor) {
-		return getInvalidValues(tituloDeEleitor);
-	}
-
 	public String generateRandomValid() {
 		final String[] digitosEstados = Estado.codigosEleitorais();
 		
