@@ -26,14 +26,11 @@ import br.com.tnas.curupira.validation.error.NITError;
  */
 public class NITValidator extends DocumentoValidator {
 
-    private MessageProducer messageProducer;
-
     /**
      * Este considera, por padrão, que as cadeias não estão formatadas e utiliza um
      * {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public NITValidator() {
-    	this.messageProducer = new SimpleMessageProducer();
     }
 
     /**

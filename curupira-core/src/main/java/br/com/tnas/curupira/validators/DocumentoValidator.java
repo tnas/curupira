@@ -3,16 +3,21 @@ package br.com.tnas.curupira.validators;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import br.com.tnas.curupira.MessageProducer;
+import br.com.tnas.curupira.SimpleMessageProducer;
+
 public abstract class DocumentoValidator implements Validator<String> {
 
 	private Pattern formatedPattern;
     private Pattern unformatedPattern;
 	
 	protected boolean isFormatted;
+	protected MessageProducer messageProducer;
 	
 	public DocumentoValidator() {
 		formatedPattern = Pattern.compile(this.getFormatedMask());
 		unformatedPattern = Pattern.compile(this.getUnformatedMask());
+		this.messageProducer = new SimpleMessageProducer();
 	}
 
 	@Override

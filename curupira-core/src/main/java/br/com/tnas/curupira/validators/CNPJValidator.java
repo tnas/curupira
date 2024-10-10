@@ -19,14 +19,12 @@ import br.com.tnas.curupira.validation.error.CNPJError;
 public class CNPJValidator extends DocumentoValidator {
 
     private boolean isIgnoringRepeatedDigits;
-	private MessageProducer messageProducer;
 
     /**
      * Este considera, por padrão, que as cadeias não estão formatadas e utiliza um
      * {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public CNPJValidator() {
-    	messageProducer = new SimpleMessageProducer();
     }
 
     /**

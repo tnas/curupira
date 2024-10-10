@@ -27,15 +27,12 @@ import br.com.tnas.curupira.validation.error.RenavamError;
  */
 public class RenavamValidator extends DocumentoValidator {
 
-    private MessageProducer messageProducer;
-
     /**
      * Construtor padrão de validador do Renavam. Este considera, por padrão,
      * que as cadeias estão formatadas e utiliza um
      * {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public RenavamValidator() {
-    	this.messageProducer = new SimpleMessageProducer();
     }
 
     /**

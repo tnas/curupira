@@ -80,15 +80,11 @@ public class TituloEleitoralValidator extends DocumentoValidator {
 
     private static final List<Estado> estadosSubstitoresDigito = Arrays.asList(Estado.SP, Estado.MG);
     
-    private MessageProducer messageProducer;
-
-    
     /**
      * Construtor do TituloEleitoralValidator. Considera por padrão que as cadeias não estão formatadas.
      * Utiliza um {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public TituloEleitoralValidator(){
-    	this.messageProducer = new SimpleMessageProducer();
     }
 
     /**

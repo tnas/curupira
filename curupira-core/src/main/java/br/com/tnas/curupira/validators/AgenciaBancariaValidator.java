@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import br.com.tnas.curupira.DigitoGenerator;
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
 
@@ -17,10 +15,7 @@ import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
  */
 public class AgenciaBancariaValidator extends DocumentoValidator {
 
-    private MessageProducer messageProducer;
-    
     public AgenciaBancariaValidator() {
-    	this.messageProducer = new SimpleMessageProducer();
 	}
     
 	public AgenciaBancariaValidator(boolean isComDigito) {

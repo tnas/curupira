@@ -20,7 +20,6 @@ import br.com.tnas.curupira.validation.error.CPFError;
 public class CPFValidator extends DocumentoValidator {
 
     private final boolean isIgnoringRepeatedDigits;
-    private final MessageProducer messageProducer;
 
     /**
      * Construtor padrão de validador de CPF. Este considera, por padrão, que as
