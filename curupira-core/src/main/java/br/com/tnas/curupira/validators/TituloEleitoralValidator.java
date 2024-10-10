@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
@@ -76,7 +77,7 @@ import br.com.tnas.curupira.validation.error.TituloEleitoralError;
  * 
  * @author Leonardo Bessa
  */
-public class TituloEleitoralValidator extends DocumentoValidator {
+public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoralFormatter> {
 
     private static final List<Estado> estadosSubstitoresDigito = Arrays.asList(Estado.SP, Estado.MG);
     
@@ -85,6 +86,7 @@ public class TituloEleitoralValidator extends DocumentoValidator {
      * Utiliza um {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public TituloEleitoralValidator(){
+    	this.formatter = new TituloEleitoralFormatter();
     }
 
     /**
@@ -156,7 +158,8 @@ public class TituloEleitoralValidator extends DocumentoValidator {
         return errors;
     }
     
-    private String calculaDigitos(String tituloSemDigito) {
+    @Override
+    protected String calculaDigitos(String tituloSemDigito) {
     	
     	int length = tituloSemDigito.length();
 
@@ -195,6 +198,7 @@ public class TituloEleitoralValidator extends DocumentoValidator {
         return !(codigo >= 01 && codigo <= 28);
     }
 	
+	@Override
 	public String generateRandomValid() {
 		final String[] digitosEstados = Estado.codigosEleitorais();
 		
@@ -209,12 +213,17 @@ public class TituloEleitoralValidator extends DocumentoValidator {
 	}
 
 	@Override
-	protected String getFormatedMask() {
-		return "(\\d{10})/(\\d{2})";
+	protected Pattern getFormatedPattern() {
+		return TituloEleitoralFormatter.FORMATED;
 	}
 
 	@Override
-	protected String getUnformatedMask() {
-		return "(\\d{10})(\\d{2})";
+	protected Pattern getUnformatedPattern() {
+		return TituloEleitoralFormatter.UNFORMATED;
+	}
+	
+	@Override
+	protected int getNoCheckDigitsSize() {
+		return TituloEleitoralFormatter.NO_CHECKDIGITS_SIZE;
 	}
 }

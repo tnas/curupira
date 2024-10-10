@@ -2,8 +2,8 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
@@ -24,13 +24,14 @@ import br.com.tnas.curupira.validation.error.NITError;
  * 
  * @author Leonardo Bessa
  */
-public class NITValidator extends DocumentoValidator {
+public class NITValidator extends DocumentoValidator<NITFormatter> {
 
     /**
      * Este considera, por padrão, que as cadeias não estão formatadas e utiliza um
      * {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public NITValidator() {
+    	this.formatter = new NITFormatter();
     }
 
     /**
@@ -42,6 +43,7 @@ public class NITValidator extends DocumentoValidator {
      *            é um dígito decimal.
      */
     public NITValidator(boolean isFormatted) {
+    	this();
     	this.messageProducer = new SimpleMessageProducer();
         this.isFormatted = isFormatted;
     }
@@ -96,26 +98,23 @@ public class NITValidator extends DocumentoValidator {
 		return errors;
     }
 
-    private String calculaDigitos(String nitSemDigito) {
+    @Override
+    protected String calculaDigitos(String nitSemDigito) {
     	return new DigitoPara(nitSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
     
-    public String generateRandomValid() {
-    	final String nitSemDigito = new DigitoGenerator().generate(10);
-    	final String nitComDigito = nitSemDigito + calculaDigitos(nitSemDigito);
-    	if (isFormatted) {
-    		return new NITFormatter().format(nitComDigito);
-    	}
-        return nitComDigito;
-    }
-
 	@Override
-	protected String getFormatedMask() {
-		return "(\\d{3})[.](\\d{5})[.](\\d{2})-(\\d{1})";
+	protected Pattern getFormatedPattern() {
+		return NITFormatter.FORMATED;
 	}
 
 	@Override
-	protected String getUnformatedMask() {
-		return "(\\d{3})(\\d{5})(\\d{2})(\\d{1})";
+	protected Pattern getUnformatedPattern() {
+		return NITFormatter.UNFORMATED;
+	}
+	
+	@Override
+	protected int getNoCheckDigitsSize() {
+		return NITFormatter.NO_CHECKDIGITS_SIZE;
 	}
 }

@@ -2,8 +2,8 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
@@ -17,7 +17,7 @@ import br.com.tnas.curupira.validation.error.CPFError;
  * 
  * @author Leonardo Bessa
  */
-public class CPFValidator extends DocumentoValidator {
+public class CPFValidator extends DocumentoValidator<CPFFormatter> {
 
     private final boolean isIgnoringRepeatedDigits;
 
@@ -28,6 +28,7 @@ public class CPFValidator extends DocumentoValidator {
      */
     public CPFValidator() {
         this(new SimpleMessageProducer(), false, false);
+        this.formatter = new CPFFormatter();
     }
 
     /**
@@ -91,6 +92,7 @@ public class CPFValidator extends DocumentoValidator {
      *            repetidos.
      */
     public CPFValidator(MessageProducer messageProducer, boolean isFormatted, boolean isIgnoringRepeatedDigits) {
+    	this.formatter = new CPFFormatter();
         this.messageProducer = messageProducer;
         this.isFormatted = isFormatted;
         this.isIgnoringRepeatedDigits = isIgnoringRepeatedDigits;
@@ -150,7 +152,8 @@ public class CPFValidator extends DocumentoValidator {
      * 
      * @return String os dois dígitos calculados.
      */
-    private String calculaDigitos(String cpfSemDigito) {
+    @Override
+    protected String calculaDigitos(String cpfSemDigito) {
         DigitoPara digitoPara = new DigitoPara(cpfSemDigito);
         digitoPara.comMultiplicadoresDeAte(2, 11).complementarAoModulo().trocandoPorSeEncontrar("0", 10, 11).mod(11);
 
@@ -161,31 +164,18 @@ public class CPFValidator extends DocumentoValidator {
         return digito1 + digito2;
     }
 
-    private boolean hasAllRepeatedDigits(String cpf) {
-        for (int i = 1; i < cpf.length(); i++) {
-            if (cpf.charAt(i) != cpf.charAt(0)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public String generateRandomValid() {
-        final String cpfSemDigitos = new DigitoGenerator().generate(9);
-        final String cpfComDigitos = cpfSemDigitos + calculaDigitos(cpfSemDigitos);
-        if (isFormatted) {
-            return new CPFFormatter().format(cpfComDigitos);
-        }
-        return cpfComDigitos;
-    }
-
 	@Override
-	protected String getFormatedMask() {
-		return "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
+	protected Pattern getFormatedPattern() {
+		return CPFFormatter.FORMATED;
 	}
 
 	@Override
-	protected String getUnformatedMask() {
-		return "(\\d{3})(\\d{3})(\\d{3})(\\d{2})";
+	protected Pattern getUnformatedPattern() {
+		return CPFFormatter.UNFORMATED;
+	}
+	
+	@Override
+	protected int getNoCheckDigitsSize() {
+		return CPFFormatter.NO_CHECKDIGITS_SIZE;
 	}
 }

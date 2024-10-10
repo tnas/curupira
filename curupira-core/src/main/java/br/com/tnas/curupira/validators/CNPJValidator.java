@@ -2,8 +2,8 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
@@ -16,7 +16,7 @@ import br.com.tnas.curupira.validation.error.CNPJError;
  * 
  * @author Leonardo Bessa
  */
-public class CNPJValidator extends DocumentoValidator {
+public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 
     private boolean isIgnoringRepeatedDigits;
 
@@ -25,6 +25,7 @@ public class CNPJValidator extends DocumentoValidator {
      * {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public CNPJValidator() {
+    	this.formatter = new CNPJFormatter();
     }
 
     /**
@@ -36,17 +37,20 @@ public class CNPJValidator extends DocumentoValidator {
      *            "d" é um dígito decimal.
      */
     public CNPJValidator(boolean isFormatted) {
+    	this();
 		this.isFormatted  = isFormatted;
 		this.messageProducer = new SimpleMessageProducer();
     }
     
     public CNPJValidator(boolean isFormatted, boolean isIgnoringRepeatedDigits) {
+    	this();
         this.isFormatted = isFormatted;
         this.isIgnoringRepeatedDigits = isIgnoringRepeatedDigits;
         this.messageProducer = new SimpleMessageProducer();
     }
 
     public CNPJValidator(MessageProducer messageProducer, boolean isFormatted, boolean isIgnoringRepeatedDigits) {
+    	this();
         this.messageProducer = messageProducer;
         this.isFormatted = isFormatted;
         this.isIgnoringRepeatedDigits = isIgnoringRepeatedDigits;
@@ -65,6 +69,7 @@ public class CNPJValidator extends DocumentoValidator {
      *            "d" é um dígito decimal.
      */
     public CNPJValidator(MessageProducer messageProducer, boolean isFormatted) {
+    	this();
 		this.messageProducer = messageProducer;
 		this.isFormatted  = isFormatted;
     }
@@ -118,7 +123,8 @@ public class CNPJValidator extends DocumentoValidator {
 	 * 
 	 * @return String os dois dígitos calculados.
 	 */
-	private String calculaDigitos(String cnpjSemDigito) {
+    @Override
+	protected String calculaDigitos(String cnpjSemDigito) {
 		DigitoPara digitoPara = new DigitoPara(cnpjSemDigito);
 		digitoPara.complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11);
 		
@@ -129,32 +135,19 @@ public class CNPJValidator extends DocumentoValidator {
 		return digito1 + digito2;
 	}
 
-	public String generateRandomValid() {
-		final String cnpjSemDigitos = new DigitoGenerator().generate(12);
-		final String cnpjComDigitos = cnpjSemDigitos + calculaDigitos(cnpjSemDigitos);
-		if (isFormatted) {
-			return new CNPJFormatter().format(cnpjComDigitos);
-		}
-		return cnpjComDigitos;
-	}
-    
-    private boolean hasAllRepeatedDigits(String cnpj) {
-        for (int i = 1; i < cnpj.length(); i++) {
-            if (cnpj.charAt(i) != cnpj.charAt(0)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 	@Override
-	protected String getFormatedMask() {
-		return "(\\d{2})[.](\\d{3})[.](\\d{3})/(\\d{4})-(\\d{2})";
+	protected Pattern getFormatedPattern() {
+		return CNPJFormatter.FORMATED;
 	}
 
 	@Override
-	protected String getUnformatedMask() {
-		return "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})";
+	protected Pattern getUnformatedPattern() {
+		return CNPJFormatter.UNFORMATED;
+	}
+
+	@Override
+	protected int getNoCheckDigitsSize() {
+		return CNPJFormatter.NO_CHECKDIGITS_SIZE;
 	}
     
 }

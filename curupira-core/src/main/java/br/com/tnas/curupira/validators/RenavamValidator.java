@@ -2,8 +2,8 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
@@ -25,7 +25,7 @@ import br.com.tnas.curupira.validation.error.RenavamError;
  * 
  * @author Rafael Carvalho
  */
-public class RenavamValidator extends DocumentoValidator {
+public class RenavamValidator extends DocumentoValidator<RenavamFormatter> {
 
     /**
      * Construtor padrão de validador do Renavam. Este considera, por padrão,
@@ -33,6 +33,7 @@ public class RenavamValidator extends DocumentoValidator {
      * {@linkplain SimpleMessageProducer} para geração de mensagens.
      */
     public RenavamValidator() {
+    	this.formatter = new RenavamFormatter();
     }
 
     /**
@@ -44,6 +45,7 @@ public class RenavamValidator extends DocumentoValidator {
      *            formatada
      */
     public RenavamValidator(boolean isFormatted) {
+    	this();
         this.isFormatted = isFormatted;
         this.messageProducer = new SimpleMessageProducer();
     }
@@ -100,7 +102,7 @@ public class RenavamValidator extends DocumentoValidator {
 			String renavamSemDigito = unformatedRenavam.substring(0, unformatedRenavam.length() - 1);
 			String digito = unformatedRenavam.substring(unformatedRenavam.length() - 1);
 
-			String digitoCalculado = calculaDigito(renavamSemDigito);
+			String digitoCalculado = calculaDigitos(renavamSemDigito);
 
 			if (!digito.equals(digitoCalculado)) {
 				errors.add(messageProducer.getMessage(RenavamError.INVALID_CHECK_DIGIT));
@@ -116,26 +118,23 @@ public class RenavamValidator extends DocumentoValidator {
 		return renavam;
 	}
 
-	private String calculaDigito(String renavamSemDigito) {
+	@Override
+	protected String calculaDigitos(String renavamSemDigito) {
     	return new DigitoPara(renavamSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
 
-	public String generateRandomValid() {
-		final String renavamSemDigito = new DigitoGenerator().generate(10);
-		final String renavamComDigito = renavamSemDigito + calculaDigito(renavamSemDigito);
-		if (isFormatted) {
-			return new RenavamFormatter().format(renavamComDigito);
-		}
-		return renavamComDigito;
+	@Override
+	protected Pattern getFormatedPattern() {
+		return RenavamFormatter.FORMATED;
 	}
 
 	@Override
-	protected String getFormatedMask() {
-		return "(\\d{2,4}).(\\d{6})-(\\d{1})";
+	protected Pattern getUnformatedPattern() {
+		return RenavamFormatter.UNFORMATED;
 	}
-
+	
 	@Override
-	protected String getUnformatedMask() {
-		return "(\\d{2,4})(\\d{6})(\\d{1})";
+	protected int getNoCheckDigitsSize() {
+		return RenavamFormatter.NO_CHECKDIGITS_SIZE;
 	}
 }

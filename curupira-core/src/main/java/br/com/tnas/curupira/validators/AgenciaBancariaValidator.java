@@ -3,9 +3,10 @@ package br.com.tnas.curupira.validators;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
 import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
 
 /**
@@ -13,9 +14,10 @@ import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
  * 
  * @author Thiago Nascimento
  */
-public class AgenciaBancariaValidator extends DocumentoValidator {
+public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancariaFormatter> {
 
     public AgenciaBancariaValidator() {
+    	this.formatter = new AgenciaBancariaFormatter();
 	}
     
 	public AgenciaBancariaValidator(boolean isComDigito) {
@@ -48,7 +50,7 @@ public class AgenciaBancariaValidator extends DocumentoValidator {
 				}
 				
 				String dvInformado = matcher.group(2);
-				String dvComputado = this.computarDigitoVerificador(matcher.group(1));
+				String dvComputado = this.calculaDigitos(matcher.group(1));
 				
 				if (!dvInformado.equals(dvComputado)) {
 					errors.add(this.messageProducer.getMessage(AgenciaBancariaError.INVALID_CHECK_DIGIT));	
@@ -65,12 +67,8 @@ public class AgenciaBancariaValidator extends DocumentoValidator {
 		return errors;
 	}
 
-	public String generateRandomValid() {
-		final String agenciaSemDigitos = new DigitoGenerator().generate(4);
-		return String.format("%s-%s", agenciaSemDigitos, this.computarDigitoVerificador(agenciaSemDigitos));
-	}
-	
-	public String computarDigitoVerificador(String agenciaSemDV) {
+	@Override
+	protected String calculaDigitos(String agenciaSemDV) {
 		
 		String[] algarisms = agenciaSemDV.split(""); 
 		int multiplier = 9;
@@ -85,13 +83,18 @@ public class AgenciaBancariaValidator extends DocumentoValidator {
 	}
 
 	@Override
-	protected String getFormatedMask() {
-		return "(\\d+)\\-([\\dX])";
+	protected Pattern getFormatedPattern() {
+		return AgenciaBancariaFormatter.FORMATED;
 	}
 
 	@Override
-	protected String getUnformatedMask() {
-		return "\\d+";
+	protected Pattern getUnformatedPattern() {
+		return AgenciaBancariaFormatter.UNFORMATED;
+	}
+	
+	@Override
+	protected int getNoCheckDigitsSize() {
+		return AgenciaBancariaFormatter.NO_CHECKDIGITS_SIZE;
 	}
 
 }
