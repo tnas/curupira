@@ -2,7 +2,6 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
@@ -17,12 +16,8 @@ import br.com.tnas.curupira.validation.error.CNPJError;
  * 
  * @author Leonardo Bessa
  */
-public class CNPJValidator implements Validator<String> {
+public class CNPJValidator extends DocumentoValidator {
 
-    public static final Pattern FORMATED = Pattern.compile("(\\d{2})[.](\\d{3})[.](\\d{3})/(\\d{4})-(\\d{2})");
-    public static final Pattern UNFORMATED = Pattern.compile("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})");
-	
-    private boolean isFormatted = false;
     private boolean isIgnoringRepeatedDigits;
 	private MessageProducer messageProducer;
 
@@ -86,7 +81,7 @@ public class CNPJValidator implements Validator<String> {
         
         if (cnpj != null) {
 
-        	if(isFormatted != FORMATED.matcher(cnpj).matches()) {
+        	if(isFormatted != this.getFormatedPattern().matcher(cnpj).matches()) {
         		errors.add(messageProducer.getMessage(CNPJError.INVALID_FORMAT));
         	}
         	
@@ -135,19 +130,6 @@ public class CNPJValidator implements Validator<String> {
 		return digito1 + digito2;
 	}
 
-    public boolean isEligible(String value) {
-		if (value == null) {
-			return false;
-		}
-        boolean result;
-        if (isFormatted) {
-            result = FORMATED.matcher(value).matches();
-        } else {
-            result = UNFORMATED.matcher(value).matches();
-        }
-        return result;
-    }
-
     public void assertValid(String cnpj) {
     	
         List<ValidationMessage> errors = getInvalidValues(cnpj);
@@ -177,5 +159,15 @@ public class CNPJValidator implements Validator<String> {
         }
         return true;
     }
+
+	@Override
+	protected String getFormatedMask() {
+		return "(\\d{2})[.](\\d{3})[.](\\d{3})/(\\d{4})-(\\d{2})";
+	}
+
+	@Override
+	protected String getUnformatedMask() {
+		return "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})";
+	}
     
 }

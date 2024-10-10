@@ -2,7 +2,6 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
@@ -18,12 +17,8 @@ import br.com.tnas.curupira.validation.error.CPFError;
  * 
  * @author Leonardo Bessa
  */
-public class CPFValidator implements Validator<String> {
+public class CPFValidator extends DocumentoValidator {
 
-    public static final Pattern FORMATED = Pattern.compile("(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})");
-    public static final Pattern UNFORMATED = Pattern.compile("(\\d{3})(\\d{3})(\\d{3})(\\d{2})");
-
-    private final boolean isFormatted;
     private final boolean isIgnoringRepeatedDigits;
     private final MessageProducer messageProducer;
 
@@ -118,7 +113,7 @@ public class CPFValidator implements Validator<String> {
             return errors;
         }
 
-        if (isFormatted != FORMATED.matcher(cpf).matches()) {
+        if (isFormatted != this.getFormatedPattern().matcher(cpf).matches()) {
             errors.add(messageProducer.getMessage(CPFError.INVALID_FORMAT));
         }
 
@@ -175,19 +170,6 @@ public class CPFValidator implements Validator<String> {
         return true;
     }
 
-    public boolean isEligible(String value) {
-        if (value == null) {
-            return false;
-        }
-        boolean result;
-        if (isFormatted) {
-            result = FORMATED.matcher(value).matches();
-        } else {
-            result = UNFORMATED.matcher(value).matches();
-        }
-        return result;
-    }
-
     public void assertValid(String cpf) {
         List<ValidationMessage> errors = getInvalidValues(cpf);
         if (!errors.isEmpty()) {
@@ -207,4 +189,14 @@ public class CPFValidator implements Validator<String> {
         }
         return cpfComDigitos;
     }
+
+	@Override
+	protected String getFormatedMask() {
+		return "(\\d{3})[.](\\d{3})[.](\\d{3})-(\\d{2})";
+	}
+
+	@Override
+	protected String getUnformatedMask() {
+		return "(\\d{3})(\\d{3})(\\d{3})(\\d{2})";
+	}
 }

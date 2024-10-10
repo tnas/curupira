@@ -2,7 +2,6 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
@@ -25,12 +24,8 @@ import br.com.tnas.curupira.validation.error.NITError;
  * 
  * @author Leonardo Bessa
  */
-public class NITValidator implements Validator<String> {
+public class NITValidator extends DocumentoValidator {
 
-    public static final Pattern FORMATED = Pattern.compile("(\\d{3})[.](\\d{5})[.](\\d{2})-(\\d{1})");
-    public static final Pattern UNFORMATED = Pattern.compile("(\\d{3})(\\d{5})(\\d{2})(\\d{1})");
-
-    private boolean isFormatted = false;
     private MessageProducer messageProducer;
 
     /**
@@ -74,7 +69,7 @@ public class NITValidator implements Validator<String> {
 		List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
 		if (nit != null) {
 		
-			if(isFormatted && !FORMATED.matcher(nit).matches()){
+			if(isFormatted && !this.getFormatedPattern().matcher(nit).matches()){
 				errors.add(messageProducer.getMessage(NITError.INVALID_FORMAT));
 			}
 			
@@ -107,16 +102,6 @@ public class NITValidator implements Validator<String> {
     	return new DigitoPara(nitSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
 
-	public boolean isEligible(String value) {
-        boolean result;
-        if (isFormatted) {
-            result = FORMATED.matcher(value).matches();
-        } else {
-            result = UNFORMATED.matcher(value).matches();
-        }
-        return result;
-    }
-
     public void assertValid(String nit) {
         List<ValidationMessage> errors = getInvalidValues(nit);
         if (!errors.isEmpty()) {
@@ -136,4 +121,14 @@ public class NITValidator implements Validator<String> {
     	}
         return nitComDigito;
     }
+
+	@Override
+	protected String getFormatedMask() {
+		return "(\\d{3})[.](\\d{5})[.](\\d{2})-(\\d{1})";
+	}
+
+	@Override
+	protected String getUnformatedMask() {
+		return "(\\d{3})(\\d{5})(\\d{2})(\\d{1})";
+	}
 }

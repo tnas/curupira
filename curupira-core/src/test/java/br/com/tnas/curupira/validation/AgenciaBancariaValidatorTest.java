@@ -21,21 +21,21 @@ public class AgenciaBancariaValidatorTest {
 	
 	@Test
 	public void shouldAcceptEligibleAgenciasComDV() {
-		AgenciaBancariaValidator validator = new AgenciaBancariaValidator();
+		AgenciaBancariaValidator validator = new AgenciaBancariaValidator(true);
 		assertTrue(validator.isEligible("3610-2"));
 		assertFalse(validator.isEligible("3610"));
 	}
 	
 	@Test
 	public void shouldAcceptEligibleAgenciasSemDV() {
-		AgenciaBancariaValidator validator = new AgenciaBancariaValidator(false);
+		AgenciaBancariaValidator validator = new AgenciaBancariaValidator();
 		assertFalse(validator.isEligible("3610-2"));
 		assertTrue(validator.isEligible("3610"));
 	}
 	
 	@Test
 	public void shouldReturnNoValidationMessagesForCorrectAgenciasComDV() {
-		AgenciaBancariaValidator validator = new AgenciaBancariaValidator();
+		AgenciaBancariaValidator validator = new AgenciaBancariaValidator(true);
 		assertTrue(validator.invalidMessagesFor("3610-2").isEmpty());
 		assertTrue(validator.invalidMessagesFor("3793-1").isEmpty());
 		assertTrue(validator.invalidMessagesFor("197-X").isEmpty());
@@ -47,7 +47,7 @@ public class AgenciaBancariaValidatorTest {
 	@Test
 	public void shouldReturnInvalidCheckDigitForIncorrectDV() {
 		
-		AgenciaBancariaValidator validator = new AgenciaBancariaValidator();
+		AgenciaBancariaValidator validator = new AgenciaBancariaValidator(true);
 		
 		try {
 			validator.assertValid("2121-9");

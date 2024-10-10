@@ -2,7 +2,6 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
@@ -26,12 +25,8 @@ import br.com.tnas.curupira.validation.error.RenavamError;
  * 
  * @author Rafael Carvalho
  */
-public class RenavamValidator implements Validator<String> {
+public class RenavamValidator extends DocumentoValidator {
 
-	public static final Pattern FORMATED = Pattern.compile("(\\d{4})[.](\\d{6})-(\\d{1})");
-	public static final Pattern UNFORMATED = Pattern.compile("(\\d{4})(\\d{6})(\\d{1})");
-
-    private boolean isFormatted = false;
     private MessageProducer messageProducer;
 
     /**
@@ -99,7 +94,7 @@ public class RenavamValidator implements Validator<String> {
 
 			renavam = formataPadraoNovo(renavam);
 			
-			if (isFormatted && !FORMATED.matcher(renavam).matches()) {
+			if (isFormatted && !this.getFormatedPattern().matcher(renavam).matches()) {
 				errors.add(messageProducer.getMessage(RenavamError.INVALID_FORMAT));
 			}
 
@@ -138,16 +133,6 @@ public class RenavamValidator implements Validator<String> {
     	return new DigitoPara(renavamSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
 
-	public boolean isEligible(String renavam) {
-        boolean isEligible;
-        if (isFormatted) {
-            isEligible = RenavamFormatter.FORMATTED.matcher(renavam).matches();
-        } else {
-            isEligible = RenavamFormatter.UNFORMATTED.matcher(renavam).matches();
-        }
-        return isEligible;
-    }
-
 	public String generateRandomValid() {
 		final String renavamSemDigito = new DigitoGenerator().generate(10);
 		final String renavamComDigito = renavamSemDigito + calculaDigito(renavamSemDigito);
@@ -155,5 +140,15 @@ public class RenavamValidator implements Validator<String> {
 			return new RenavamFormatter().format(renavamComDigito);
 		}
 		return renavamComDigito;
+	}
+
+	@Override
+	protected String getFormatedMask() {
+		return "(\\d{2,4}).(\\d{6})-(\\d{1})";
+	}
+
+	@Override
+	protected String getUnformatedMask() {
+		return "(\\d{2,4})(\\d{6})(\\d{1})";
 	}
 }

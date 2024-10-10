@@ -11,7 +11,8 @@ public class CPFFormatter implements Formatter {
     private final BaseFormatter base;
 
     public CPFFormatter() {
-        this.base = new BaseFormatter(CPFValidator.FORMATED, "$1.$2.$3-$4", CPFValidator.UNFORMATED, "$1$2$3$4");
+    	var validator = new CPFValidator();
+        this.base = new BaseFormatter(validator.getFormatedPattern(), "$1.$2.$3-$4", validator.getUnformatedPattern(), "$1$2$3$4");
     }
 
 	public String format(String value) {

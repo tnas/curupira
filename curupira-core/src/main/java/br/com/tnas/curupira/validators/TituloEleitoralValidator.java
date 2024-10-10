@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
@@ -77,14 +76,10 @@ import br.com.tnas.curupira.validation.error.TituloEleitoralError;
  * 
  * @author Leonardo Bessa
  */
-public class TituloEleitoralValidator implements Validator<String> {
+public class TituloEleitoralValidator extends DocumentoValidator {
 
-    public static final Pattern FORMATED = Pattern.compile("(\\d{10})/(\\d{2})");
-    public static final Pattern UNFORMATED = Pattern.compile("(\\d{10})(\\d{2})");
-    
     private static final List<Estado> estadosSubstitoresDigito = Arrays.asList(Estado.SP, Estado.MG);
     
-    private boolean isFormatted = false;
     private MessageProducer messageProducer;
 
     
@@ -129,7 +124,7 @@ public class TituloEleitoralValidator implements Validator<String> {
         List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
         if (tituloDeEleitor != null) { 
         	
-			if (isFormatted && !FORMATED.matcher(tituloDeEleitor).matches()) {
+			if (isFormatted && !this.getFormatedPattern().matcher(tituloDeEleitor).matches()) {
 				errors.add(messageProducer.getMessage(TituloEleitoralError.INVALID_FORMAT));
 			}
 
@@ -204,16 +199,6 @@ public class TituloEleitoralValidator implements Validator<String> {
         return !(codigo >= 01 && codigo <= 28);
     }
 	
-	public boolean isEligible(String value) {
-		boolean result;
-		if (isFormatted) {
-			result = FORMATED.matcher(value).matches();
-		} else {
-			result = UNFORMATED.matcher(value).matches();
-		}
-		return result;
-	}
-
 	public void assertValid(String tituloDeEleitor) {
 		List<ValidationMessage> errors = getInvalidValues(tituloDeEleitor);
 		if (!errors.isEmpty()) {
@@ -236,5 +221,15 @@ public class TituloEleitoralValidator implements Validator<String> {
 			return new TituloEleitoralFormatter().format(tituloComDigito);
 		}
 		return tituloComDigito;
+	}
+
+	@Override
+	protected String getFormatedMask() {
+		return "(\\d{10})/(\\d{2})";
+	}
+
+	@Override
+	protected String getUnformatedMask() {
+		return "(\\d{10})(\\d{2})";
 	}
 }

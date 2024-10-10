@@ -2,9 +2,7 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.MessageProducer;
@@ -13,16 +11,12 @@ import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
 
 /**
- * Representa um validador de agencia bancária.
+ * Representa um validador de agencia bancária do Banco do Brasil.
  * 
  * @author Thiago Nascimento
  */
-public class AgenciaBancariaValidator implements Validator<String> {
+public class AgenciaBancariaValidator extends DocumentoValidator {
 
-	public static final Pattern COM_DV = Pattern.compile("(\\d+)\\-([\\dX])");
-    public static final Pattern SEM_DV = Pattern.compile("\\d+");
-	
-    private boolean isComDigito = true;
     private MessageProducer messageProducer;
     
     public AgenciaBancariaValidator() {
@@ -31,7 +25,7 @@ public class AgenciaBancariaValidator implements Validator<String> {
     
 	public AgenciaBancariaValidator(boolean isComDigito) {
 		this();
-		this.isComDigito = isComDigito;
+		this.isFormatted = isComDigito;
 	}
 
 	public void assertValid(String agencia) {
@@ -49,9 +43,9 @@ public class AgenciaBancariaValidator implements Validator<String> {
 		
 		if (this.isEligible(agencia)) {
 			
-			if (this.isComDigito) {
+			if (this.isFormatted) {
 				
-				Matcher matcher = COM_DV.matcher(agencia);
+				Matcher matcher = this.getFormatedPattern().matcher(agencia);
 				
 				if (!matcher.find()) {
 					throw new InvalidStateException(this.messageProducer.getMessage(AgenciaBancariaError.INVALID_FORMAT));
@@ -75,16 +69,6 @@ public class AgenciaBancariaValidator implements Validator<String> {
 		return errors;
 	}
 
-	public boolean isEligible(String value) {
-		
-		if (Objects.isNull(value) || value.isBlank()) {
-			return false;
-		}
-		
-		return this.isComDigito ? 
-				COM_DV.matcher(value).matches() : SEM_DV.matcher(value).matches();
-	}
-
 	public String generateRandomValid() {
 		final String agenciaSemDigitos = new DigitoGenerator().generate(4);
 		return String.format("%s-%s", agenciaSemDigitos, this.computarDigitoVerificador(agenciaSemDigitos));
@@ -102,6 +86,16 @@ public class AgenciaBancariaValidator implements Validator<String> {
 		
 		int rest = sum % 11;
 		return rest == 10 ? "X" : String.valueOf(rest); 
+	}
+
+	@Override
+	protected String getFormatedMask() {
+		return "(\\d+)\\-([\\dX])";
+	}
+
+	@Override
+	protected String getUnformatedMask() {
+		return "\\d+";
 	}
 
 }

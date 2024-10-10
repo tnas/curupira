@@ -13,6 +13,7 @@ import br.com.tnas.curupira.validators.Validator;
 
 /**
  * @author Leonardo Bessa
+ * @author Thiago Nascimento
  */
 public class TituloEleitoralValidatorTest {
 

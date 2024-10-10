@@ -8,7 +8,8 @@ public class TituloEleitoralFormatter implements Formatter{
 	private final BaseFormatter base;
 
     public TituloEleitoralFormatter() {
-        this.base = new BaseFormatter(TituloEleitoralValidator.FORMATED, "$1/$2",TituloEleitoralValidator.UNFORMATED, "$1$2");
+    	var validator = new TituloEleitoralValidator();
+        this.base = new BaseFormatter(validator.getFormatedPattern(), "$1/$2", validator.getUnformatedPattern(), "$1$2");
     }
 
 	public String format(String value) {

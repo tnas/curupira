@@ -10,7 +10,8 @@ public class CNPJFormatter implements Formatter {
     private final BaseFormatter base;
 
     public CNPJFormatter() {
-        this.base = new BaseFormatter(CNPJValidator.FORMATED, "$1.$2.$3/$4-$5", CNPJValidator.UNFORMATED, "$1$2$3$4$5");
+    	var validator = new CNPJValidator();
+        this.base = new BaseFormatter(validator.getFormatedPattern(), "$1.$2.$3/$4-$5", validator.getUnformatedPattern(), "$1$2$3$4$5");
     }
 
 	public String format(String value) {
