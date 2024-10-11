@@ -1,10 +1,5 @@
 package br.com.tnas.curupira.validators;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Pattern;
-
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
@@ -12,6 +7,11 @@ import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
 import br.com.tnas.curupira.validators.rules.NullRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 public abstract class DocumentoValidator<F extends Formatter> implements Validator<String> {
 
@@ -29,7 +29,7 @@ public abstract class DocumentoValidator<F extends Formatter> implements Validat
 	
 	protected abstract Pattern getUnformatedPattern();
 	
-	protected abstract String calculaDigitos(String valueWithoutDigit);
+	protected abstract String computeCheckDigits(String valueWithoutDigit);
 
 	protected abstract List<ValidationRule> getValidationRules();
 
@@ -70,22 +70,11 @@ public abstract class DocumentoValidator<F extends Formatter> implements Validat
 	public String generateRandomValid() {
     	
 		final String valorSemDigitos = new DigitoGenerator().generate(this.getNoCheckDigitsSize());
-		final String valorComDigitos = valorSemDigitos + this.calculaDigitos(valorSemDigitos);
+		final String valorComDigitos = valorSemDigitos + this.computeCheckDigits(valorSemDigitos);
 		
 		if (isFormatted) {
 			return this.formatter.format(valorComDigitos);
 		}
 		return valorComDigitos;
 	}
-
-    // TODO: Refactor
-	protected boolean hasAllRepeatedDigits(String value) {
-        for (int i = 1; i < value.length(); i++) {
-            if (value.charAt(i) != value.charAt(0)) {
-                return false;
-            }
-        }
-        return true;
-    }
-	
 }

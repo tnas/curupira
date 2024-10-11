@@ -10,6 +10,9 @@ import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.RenavamFormatter;
 import br.com.tnas.curupira.validation.error.RenavamError;
+import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
+import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
@@ -67,80 +70,36 @@ public class RenavamValidator extends DocumentoValidator<RenavamFormatter> {
         this.messageProducer = messageProducer;
     }
 
-    /**
-     * Valida se a cadeia está de acordo com as regras de validação do Renavam.
-     * 
-     * @see br.com.caelum.stella.validation.Validator#assertValid(java.lang.Object)
-     * 
-     * @param renavam
-     *            Cadeia de caracteres representando o Renavam a ser validado
-     * @return Uma lista de {@linkplain ValidationMessage} com os erros encontrados
-     *         ou uma lista vazia, caso não haja nenhum erro.
-     */
-    @Override
-    public List<ValidationMessage> invalidMessagesFor(String renavam) {
-        List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
-		if (renavam != null) {
-
-			renavam = formataPadraoNovo(renavam);
-			
-			if (isFormatted && !this.getFormattedPattern().matcher(renavam).matches()) {
-				errors.add(messageProducer.getMessage(RenavamError.INVALID_FORMAT));
-			}
-
-			String unformatedRenavam = null;
-			try {
-				unformatedRenavam = new RenavamFormatter().unformat(renavam);
-			} catch (IllegalArgumentException e) {
-				errors.add(messageProducer.getMessage(RenavamError.INVALID_DIGITS));
-				return errors;
-			}
-			
-			if (unformatedRenavam.length() != 11 || !unformatedRenavam.matches("[0-9]*")) {
-				errors.add(messageProducer.getMessage(RenavamError.INVALID_DIGITS));
-			}
-
-			String renavamSemDigito = unformatedRenavam.substring(0, unformatedRenavam.length() - 1);
-			String digito = unformatedRenavam.substring(unformatedRenavam.length() - 1);
-
-			String digitoCalculado = calculaDigitos(renavamSemDigito);
-
-			if (!digito.equals(digitoCalculado)) {
-				errors.add(messageProducer.getMessage(RenavamError.INVALID_CHECK_DIGIT));
-			}
-		}
-		return errors;
-    }
-
-	private String formataPadraoNovo(String renavam) {
-		if ((isFormatted && renavam.length() == 11) || (!isFormatted && renavam.length() == 9)) {
-			return "00" + renavam;
-		}
-		return renavam;
-	}
-
 	@Override
-	protected String calculaDigitos(String renavamSemDigito) {
+	protected String computeCheckDigits(String renavamSemDigito) {
     	return new DigitoPara(renavamSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
 
 	@Override
 	protected Pattern getFormattedPattern() {
-		return RenavamFormatter.FORMATED;
+		return RenavamFormatter.FORMATTED;
 	}
 
 	@Override
 	protected Pattern getUnformatedPattern() {
-		return RenavamFormatter.UNFORMATED;
+		return RenavamFormatter.UNFORMATTED;
 	}
 	
 	@Override
 	protected int getNoCheckDigitsSize() {
-		return RenavamFormatter.NO_CHECKDIGITS_SIZE;
+		return RenavamFormatter.NO_CHECK_DIGITS_SIZE;
 	}
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
-		return null;
+
+		var formatter = new RenavamFormatter();
+		formatter.setFormatted(this.isFormatted);
+
+		return List.of(
+				new FormattingRule(formatter, this.isFormatted, RenavamError.INVALID_FORMAT),
+				new UnformattingRule(formatter, 11, "[0-9]*", RenavamError.INVALID_DIGITS),
+				new CheckDigitsRule(formatter, 1, this::computeCheckDigits, RenavamError.INVALID_CHECK_DIGIT)
+		);
 	}
 }

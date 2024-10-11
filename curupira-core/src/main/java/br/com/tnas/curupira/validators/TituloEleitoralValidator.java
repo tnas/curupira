@@ -11,9 +11,15 @@ import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.format.RenavamFormatter;
 import br.com.tnas.curupira.format.TituloEleitoralFormatter;
 import br.com.tnas.curupira.type.Estado;
+import br.com.tnas.curupira.validation.error.RenavamError;
 import br.com.tnas.curupira.validation.error.TituloEleitoralError;
+import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
+import br.com.tnas.curupira.validators.rules.ElectoralStateCodeRule;
+import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
@@ -119,48 +125,7 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
     }
     
     @Override
-    public List<ValidationMessage> invalidMessagesFor(String tituloDeEleitor) {
-        List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
-        if (tituloDeEleitor != null) { 
-        	
-			if (isFormatted && !this.getFormattedPattern().matcher(tituloDeEleitor).matches()) {
-				errors.add(messageProducer.getMessage(TituloEleitoralError.INVALID_FORMAT));
-			}
-
-			String unformatedTitulo = null;
-			try {
-				unformatedTitulo = new TituloEleitoralFormatter().unformat(tituloDeEleitor);
-			} catch (IllegalArgumentException e) {
-				errors.add(messageProducer.getMessage(TituloEleitoralError.INVALID_DIGITS));
-				return errors;
-			}
-
-			if (unformatedTitulo.length() != 12 || !unformatedTitulo.matches("[0-9]*")) {
-				errors.add(messageProducer.getMessage(TituloEleitoralError.INVALID_DIGITS));
-			}
-			
-			if (hasCodigoDeEstadoInvalido(unformatedTitulo)) {
-				errors.add(messageProducer.getMessage(TituloEleitoralError.INVALID_CODIGO_DE_ESTADO));
-			} else {
-				
-				String tituloSemDigito = unformatedTitulo.substring(0, unformatedTitulo.length() - 2);
-				String digitos = unformatedTitulo.substring(unformatedTitulo.length() - 2);
-				
-				String digitosCalculados = calculaDigitos(tituloSemDigito);
-				
-				if (!digitos.equals(digitosCalculados)) {
-					errors.add(messageProducer.getMessage(TituloEleitoralError.INVALID_CHECK_DIGITS));
-				}
-				
-			}
-
-			
-        }
-        return errors;
-    }
-    
-    @Override
-    protected String calculaDigitos(String tituloSemDigito) {
+    protected String computeCheckDigits(String tituloSemDigito) {
     	
     	int length = tituloSemDigito.length();
 
@@ -193,12 +158,7 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
     	
     	return digito;
     }
-    
-	private boolean hasCodigoDeEstadoInvalido(String tituloDeEleitor) {
-        int codigo= Integer.parseInt(tituloDeEleitor.substring(tituloDeEleitor.length() - 4, tituloDeEleitor.length() - 2));
-        return !(codigo >= 01 && codigo <= 28);
-    }
-	
+
 	@Override
 	public String generateRandomValid() {
 		final String[] digitosEstados = Estado.codigosEleitorais();
@@ -206,7 +166,7 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
 		final String digitosSequenciais = new DigitoGenerator().generate(8);
 		final String digitosEstado = digitosEstados[new Random().nextInt(digitosEstados.length)];
 		final String tituloSemDigito = digitosSequenciais + digitosEstado;
-		final String tituloComDigito = tituloSemDigito + calculaDigitos(tituloSemDigito);
+		final String tituloComDigito = tituloSemDigito + computeCheckDigits(tituloSemDigito);
 		if (isFormatted) {
 			return new TituloEleitoralFormatter().format(tituloComDigito);
 		}
@@ -230,6 +190,14 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
-		return null;
+
+		var formatter = new TituloEleitoralFormatter();
+
+		return List.of(
+				new FormattingRule(formatter, this.isFormatted, TituloEleitoralError.INVALID_FORMAT),
+				new UnformattingRule(formatter, 12, "[0-9]*", TituloEleitoralError.INVALID_DIGITS),
+				new ElectoralStateCodeRule(formatter, TituloEleitoralError.INVALID_CODIGO_DE_ESTADO),
+				new CheckDigitsRule(formatter, 2, this::computeCheckDigits, TituloEleitoralError.INVALID_CHECK_DIGITS)
+		);
 	}
 }

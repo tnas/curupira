@@ -8,13 +8,13 @@ import java.util.regex.Pattern;
  */
 public class CEPFormatter implements Formatter {
 
-    public static final Pattern FORMATED = Pattern.compile("(\\d{5})-(\\d{3})");
-    public static final Pattern UNFORMATED = Pattern.compile("(\\d{5})(\\d{3})");
+    public static final Pattern FORMATTED = Pattern.compile("(\\d{5})-(\\d{3})");
+    public static final Pattern UNFORMATTED = Pattern.compile("(\\d{5})(\\d{3})");
  
     private final BaseFormatter base;
 
     public CEPFormatter() {
-        this.base = new BaseFormatter(FORMATED, "$1-$2", UNFORMATED, "$1$2");
+        this.base = new BaseFormatter(FORMATTED, "$1-$2", UNFORMATTED, "$1$2");
     }
 
     public String format(String value) throws IllegalArgumentException {
@@ -33,4 +33,13 @@ public class CEPFormatter implements Formatter {
         return base.canBeFormatted(value);
     }
 
+    @Override
+    public Pattern getFormattedPattern() {
+        return FORMATTED;
+    }
+
+    @Override
+    public Pattern getUnformattedPattern() {
+        return UNFORMATTED;
+    }
 }

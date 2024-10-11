@@ -84,10 +84,16 @@ public class NITValidatorTest {
     }
 
     @Test
-    public void shouldValidateNullNIT() {
+    public void shouldNotValidateNullNIT() {
         NITValidator validator = new NITValidator();
         String value = null;
-        validator.assertValid(value);
+        try {
+            validator.assertValid(value);
+            fail();
+        } catch (InvalidStateException e) {
+            assertTrue(e.getInvalidMessages().size() == 1);
+            assertMessage(e, INVALID_DIGITS);
+        }
     }
 
     @Test

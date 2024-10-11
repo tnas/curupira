@@ -32,4 +32,14 @@ public class NITFormatter implements Formatter {
     public boolean canBeFormatted(String value) {
     	return base.canBeFormatted(value);
     }
+
+    @Override
+    public Pattern getFormattedPattern() {
+        return FORMATED;
+    }
+
+    @Override
+    public Pattern getUnformattedPattern() {
+        return UNFORMATED;
+    }
 }

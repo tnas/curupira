@@ -4,6 +4,7 @@ import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.CNPJFormatter;
+import br.com.tnas.curupira.validation.error.CNPJError;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
 import br.com.tnas.curupira.validators.rules.RepeatedDigitsRule;
@@ -86,7 +87,7 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 	 * @return String os dois dígitos calculados.
 	 */
     @Override
-	protected String calculaDigitos(String cnpjSemDigito) {
+	protected String computeCheckDigits(String cnpjSemDigito) {
 		DigitoPara digitoPara = new DigitoPara(cnpjSemDigito);
 		digitoPara.complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11);
 		
@@ -114,11 +115,12 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
+		var formatter = new CNPJFormatter();
 		return List.of(
-				new FormattingRule(this.isFormatted, this.getFormattedPattern()),
-				new UnformattingRule(new CNPJFormatter(), 14, "[0-9]*"),
-				new RepeatedDigitsRule(new CNPJFormatter(), this.isIgnoringRepeatedDigits),
-				new CheckDigitsRule(new CNPJFormatter(), 2, this::calculaDigitos)
+				new FormattingRule(formatter, this.isFormatted, CNPJError.INVALID_FORMAT),
+				new UnformattingRule(formatter, 14, "[0-9]*", CNPJError.INVALID_DIGITS),
+				new RepeatedDigitsRule(formatter, this.isIgnoringRepeatedDigits, CNPJError.REPEATED_DIGITS),
+				new CheckDigitsRule(formatter, 2, this::computeCheckDigits, CNPJError.INVALID_CHECK_DIGITS)
 		);
 	}
     

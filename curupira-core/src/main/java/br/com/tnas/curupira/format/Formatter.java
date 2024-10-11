@@ -1,5 +1,7 @@
 package br.com.tnas.curupira.format;
 
+import java.util.regex.Pattern;
+
 /**
  * Formatter é responsável por transfomar cadeias sem formatação em cadeias
  * formatadas e vice-versa.
@@ -34,7 +36,7 @@ public interface Formatter {
      *             caso argumento seja nulo ou não represente propriamente um
      *             valor formatado.
      */
-    public abstract String unformat(String value) throws IllegalArgumentException;
+    String unformat(String value) throws IllegalArgumentException;
 
 	/**
 	 * <p>
@@ -45,7 +47,7 @@ public interface Formatter {
 	 *            cadeia a ser verificada
 	 * @return true, se estiver de acordo com o formato
 	 */
-	public abstract boolean isFormatted(String value);
+	boolean isFormatted(String value);
 
 	/**
 	 * <p>
@@ -56,5 +58,13 @@ public interface Formatter {
 	 *            cadeia a ser verificada
 	 * @return true, se este formatador pode formatar a cadeia dada.
 	 */
-	public abstract boolean canBeFormatted(String value);
+	boolean canBeFormatted(String value);
+
+	default String reformat(String value) {
+		return value;
+	}
+
+	Pattern getFormattedPattern();
+
+	Pattern getUnformattedPattern();
 }

@@ -4,15 +4,16 @@ import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
 import br.com.tnas.curupira.validators.InvalidValue;
 
-public class RepeatedDigitsRule implements ValidationRule {
+public class ElectoralStateCodeRule implements ValidationRule {
+
+    private static final int CODIGO_SAO_PAULO = 1;
+    private static final int CODIGO_EXTERIOR_ZZ = 28;
 
     private final Formatter formatter;
-    private final boolean isIgnoringRepeatedDigits;
     private final InvalidValue errorKey;
 
-    public RepeatedDigitsRule(Formatter formatter, boolean isIgnoringRepeatedDigits, InvalidValue errorKey) {
+    public ElectoralStateCodeRule(Formatter formatter, InvalidValue errorKey) {
         this.formatter = formatter;
-        this.isIgnoringRepeatedDigits = isIgnoringRepeatedDigits;
         this.errorKey = errorKey;
     }
 
@@ -23,6 +24,8 @@ public class RepeatedDigitsRule implements ValidationRule {
 
     @Override
     public boolean validate(String value) {
-        return this.isIgnoringRepeatedDigits || this.formatter.unformat(value).chars().distinct().count() > 1;
+        value = this.formatter.unformat(value);
+        int stateCode = Integer.parseInt(value.substring(value.length() - 4, value.length() - 2));
+        return stateCode >= CODIGO_SAO_PAULO && stateCode <= CODIGO_EXTERIOR_ZZ;
     }
 }

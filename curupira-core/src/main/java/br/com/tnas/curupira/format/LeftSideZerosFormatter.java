@@ -1,5 +1,7 @@
 package br.com.tnas.curupira.format;
 
+import java.util.regex.Pattern;
+
 /**
  * Formatador que insere ou remove zeros a esquerda de um String que <b>deve</b>
  * representar um numero decimal.
@@ -48,5 +50,15 @@ public class LeftSideZerosFormatter implements Formatter {
 
     public boolean canBeFormatted(String value) {
     	return value.matches("\\d{0," + formattedLength + "}");
+    }
+
+    @Override
+    public Pattern getFormattedPattern() {
+        return null;
+    }
+
+    @Override
+    public Pattern getUnformattedPattern() {
+        return null;
     }
 }

@@ -31,4 +31,14 @@ public class TituloEleitoralFormatter implements Formatter {
     	return base.canBeFormatted(value);
     }
 
+    @Override
+    public Pattern getFormattedPattern() {
+        return FORMATED;
+    }
+
+    @Override
+    public Pattern getUnformattedPattern() {
+        return UNFORMATED;
+    }
+
 }

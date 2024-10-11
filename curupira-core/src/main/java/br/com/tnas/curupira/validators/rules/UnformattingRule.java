@@ -2,23 +2,25 @@ package br.com.tnas.curupira.validators.rules;
 
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validation.error.CNPJError;
+import br.com.tnas.curupira.validators.InvalidValue;
 
 public class UnformattingRule implements ValidationRule {
 
     private final Formatter formatter;
     private final int unformattedSize;
     private final String unformattedPattern;
+    private final InvalidValue errorKey;
 
-    public UnformattingRule(Formatter formatter, int unformattedSize, String unformattedPattern) {
+    public UnformattingRule(Formatter formatter, int unformattedSize, String unformattedPattern, InvalidValue errorKey) {
         this.formatter = formatter;
         this.unformattedSize = unformattedSize;
         this.unformattedPattern = unformattedPattern;
+        this.errorKey = errorKey;
     }
 
     @Override
     public ValidationMessage getErrorMessage() {
-        return messageProducer.getMessage(CNPJError.INVALID_DIGITS);
+        return messageProducer.getMessage(this.errorKey);
     }
 
     @Override

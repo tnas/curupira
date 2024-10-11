@@ -65,4 +65,14 @@ public class BaseFormatter implements Formatter {
         this.unformattedReplacement = unformattedReplacement;
     }
 
+    @Override
+    public Pattern getFormattedPattern() {
+        return this.formatted;
+    }
+
+    @Override
+    public Pattern getUnformattedPattern() {
+        return this.unformatted;
+    }
+
 }

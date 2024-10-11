@@ -8,8 +8,13 @@ import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.format.CNPJFormatter;
 import br.com.tnas.curupira.format.CPFFormatter;
 import br.com.tnas.curupira.validation.error.CPFError;
+import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
+import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.RepeatedDigitsRule;
+import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
@@ -100,61 +105,12 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
     }
 
     /**
-     * Valida se a cadeia está de acordo com as regras de um CPF.
-     * 
-     * @see br.com.caelum.stella.validation.Validator#assertValid(java.lang.Object)
-     * @return <code>true</code> se a cadeia é válida ou é nula;
-     *         <code>false</code> caso contrario.
-     */
-    @Override
-    public List<ValidationMessage> invalidMessagesFor(String cpf) {
-
-        List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
-
-        if (cpf == null) {
-            errors.add(messageProducer.getMessage(CPFError.INVALID_DIGITS));
-            return errors;
-        }
-
-        if (isFormatted != this.getFormattedPattern().matcher(cpf).matches()) {
-            errors.add(messageProducer.getMessage(CPFError.INVALID_FORMAT));
-        }
-
-        String unformatedCPF = null;
-        try {
-            unformatedCPF = new CPFFormatter().unformat(cpf);
-        } catch (IllegalArgumentException e) {
-            errors.add(messageProducer.getMessage(CPFError.INVALID_DIGITS));
-            return errors;
-        }
-
-        if (unformatedCPF.length() != 11 || !unformatedCPF.matches("[0-9]*")) {
-            errors.add(messageProducer.getMessage(CPFError.INVALID_DIGITS));
-        }
-
-        if ((!isIgnoringRepeatedDigits) && hasAllRepeatedDigits(unformatedCPF)) {
-            errors.add(messageProducer.getMessage(CPFError.REPEATED_DIGITS));
-        }
-
-        String cpfSemDigito = unformatedCPF.substring(0, unformatedCPF.length() - 2);
-        String digitos = unformatedCPF.substring(unformatedCPF.length() - 2);
-
-        String digitosCalculados = calculaDigitos(cpfSemDigito);
-
-        if (!digitos.equals(digitosCalculados)) {
-            errors.add(messageProducer.getMessage(CPFError.INVALID_CHECK_DIGITS));
-        }
-
-        return errors;
-    }
-
-    /**
      * Faz o cálculo dos digitos usando a lógica de CPF
      * 
      * @return String os dois dígitos calculados.
      */
     @Override
-    protected String calculaDigitos(String cpfSemDigito) {
+    protected String computeCheckDigits(String cpfSemDigito) {
         DigitoPara digitoPara = new DigitoPara(cpfSemDigito);
         digitoPara.comMultiplicadoresDeAte(2, 11).complementarAoModulo().trocandoPorSeEncontrar("0", 10, 11).mod(11);
 
@@ -182,6 +138,12 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
 
     @Override
     protected List<ValidationRule> getValidationRules() {
-        return null;
+        var formatter = new CPFFormatter();
+        return List.of(
+                new FormattingRule(formatter, this.isFormatted, CPFError.INVALID_FORMAT),
+                new UnformattingRule(formatter, 11, "[0-9]*", CPFError.INVALID_DIGITS),
+                new RepeatedDigitsRule(formatter, this.isIgnoringRepeatedDigits, CPFError.REPEATED_DIGITS),
+                new CheckDigitsRule(formatter, 2, this::computeCheckDigits, CPFError.INVALID_CHECK_DIGITS)
+        );
     }
 }

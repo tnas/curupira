@@ -34,4 +34,13 @@ public class CNPJFormatter implements Formatter {
 		return base.canBeFormatted(value);
 	}
 
+	@Override
+	public Pattern getFormattedPattern() {
+		return FORMATTED;
+	}
+
+	@Override
+	public Pattern getUnformattedPattern() {
+		return UNFORMATTED;
+	}
 }

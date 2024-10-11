@@ -1,16 +1,17 @@
 package br.com.tnas.curupira.validators;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.NITFormatter;
 import br.com.tnas.curupira.validation.error.NITError;
+import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
+import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -66,41 +67,7 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
     }
 
     @Override
-    public List<ValidationMessage> invalidMessagesFor(String nit) {
-		List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
-		if (nit != null) {
-		
-			if(isFormatted && !this.getFormattedPattern().matcher(nit).matches()){
-				errors.add(messageProducer.getMessage(NITError.INVALID_FORMAT));
-			}
-			
-			String unformatedNIT = null;
-			try{
-				unformatedNIT = new NITFormatter().unformat(nit);
-			}catch(IllegalArgumentException e){
-				errors.add(messageProducer.getMessage(NITError.INVALID_DIGITS));
-				return errors;
-			}
-			
-		    if(unformatedNIT.length() != 11 || !unformatedNIT.matches("[0-9]*")){
-		    	errors.add(messageProducer.getMessage(NITError.INVALID_DIGITS));
-		    }
-		   
-		    String nitSemDigito = unformatedNIT.substring(0, unformatedNIT.length() - 1);
-		    String digitos = unformatedNIT.substring(unformatedNIT.length() - 1);
-		
-			String digitosCalculados = calculaDigitos(nitSemDigito);
-		
-		    if(!digitos.equals(digitosCalculados)){
-		    	errors.add(messageProducer.getMessage(NITError.INVALID_CHECK_DIGITS));
-		
-			}
-		}
-		return errors;
-    }
-
-    @Override
-    protected String calculaDigitos(String nitSemDigito) {
+    protected String computeCheckDigits(String nitSemDigito) {
     	return new DigitoPara(nitSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
     
@@ -121,6 +88,13 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
-		return null;
+
+		var formatter = new NITFormatter();
+
+		return List.of(
+				new FormattingRule(formatter, this.isFormatted, NITError.INVALID_FORMAT),
+				new UnformattingRule(formatter, 11, "[0-9]*", NITError.INVALID_DIGITS),
+				new CheckDigitsRule(formatter, 1, this::computeCheckDigits, NITError.INVALID_CHECK_DIGITS)
+		);
 	}
 }

@@ -8,14 +8,15 @@ import java.util.regex.Pattern;
  */
 public class RenavamFormatter implements Formatter {
 
-	public static final int NO_CHECKDIGITS_SIZE = 10;
-    public static final Pattern FORMATED = Pattern.compile("(\\d{2,4}).(\\d{6})-(\\d{1})");
-    public static final Pattern UNFORMATED = Pattern.compile("(\\d{2,4})(\\d{6})(\\d{1})");
+	public static final int NO_CHECK_DIGITS_SIZE = 10;
+    public static final Pattern FORMATTED = Pattern.compile("(\\d{2,4}).(\\d{6})-(\\d{1})");
+    public static final Pattern UNFORMATTED = Pattern.compile("(\\d{2,4})(\\d{6})(\\d{1})");
 
     private final BaseFormatter base;
+    private boolean isFormatted;
 
     public RenavamFormatter() {
-        this.base = new BaseFormatter(FORMATED, "$1.$2-$3", UNFORMATED, "$1$2$3");
+        this.base = new BaseFormatter(FORMATTED, "$1.$2-$3", UNFORMATTED, "$1$2$3");
     }
 
 	public String format(String renavam) throws IllegalArgumentException {
@@ -23,7 +24,7 @@ public class RenavamFormatter implements Formatter {
     }
 
 	public String unformat(String renavam) throws IllegalArgumentException {
-        return base.unformat(renavam);
+        return base.unformat(this.reformat(renavam));
     }
 
     public boolean isFormatted(String value) {
@@ -32,5 +33,25 @@ public class RenavamFormatter implements Formatter {
 
     public boolean canBeFormatted(String value) {
     	return base.canBeFormatted(value);
+    }
+
+    @Override
+    public String reformat(String renavam) {
+        return (isFormatted && renavam.length() == 11) || (!isFormatted && renavam.length() == 9)
+                ? "00" + renavam : renavam;
+    }
+
+    @Override
+    public Pattern getFormattedPattern() {
+        return FORMATTED;
+    }
+
+    @Override
+    public Pattern getUnformattedPattern() {
+        return UNFORMATTED;
+    }
+
+    public void setFormatted(boolean formatted) {
+        isFormatted = formatted;
     }
 }

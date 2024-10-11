@@ -4,14 +4,14 @@ import java.util.regex.Pattern;
 
 public class AgenciaBancariaFormatter implements Formatter {
 	
-	public static final int NO_CHECKDIGITS_SIZE = 4;
-	public static final Pattern FORMATED = Pattern.compile("(\\d+)\\-([\\dX])");
-	public static final Pattern UNFORMATED = Pattern.compile("(\\d+)");
+	public static final int NO_CHECK_DIGITS_SIZE = 4;
+	public static final Pattern FORMATTED = Pattern.compile("(\\d+)\\-([\\dX])");
+	public static final Pattern UNFORMATTED = Pattern.compile("(\\d+)");
 	
 	private final BaseFormatter base;
 	
 	public AgenciaBancariaFormatter() {
-		this.base = new BaseFormatter(FORMATED, "$1-$2", UNFORMATED, "$1");
+		this.base = new BaseFormatter(FORMATTED, "$1-$2", UNFORMATTED, "$1$2");
 	}
 	
 	@Override
@@ -31,4 +31,13 @@ public class AgenciaBancariaFormatter implements Formatter {
     	return base.canBeFormatted(value);
     }
 
+	@Override
+	public Pattern getFormattedPattern() {
+		return FORMATTED;
+	}
+
+	@Override
+	public Pattern getUnformattedPattern() {
+		return UNFORMATTED;
+	}
 }

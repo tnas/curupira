@@ -121,9 +121,8 @@ public class RenavamValidationTest {
         List<ValidationMessage> invalidMessagesFor = null;
 
         invalidMessagesFor = validator.invalidMessagesFor("999");
-        assertTrue(invalidMessagesFor.size() == 2);
+        assertTrue(invalidMessagesFor.size() == 1);
         assertEquals("RenavamError : INVALID FORMAT", invalidMessagesFor.get(0).getMessage());
-        assertEquals("RenavamError : INVALID DIGITS", invalidMessagesFor.get(1).getMessage());
 
         invalidMessagesFor = validator.invalidMessagesFor(renavamFormattedWithInvalidCheckDigit);
         assertTrue(invalidMessagesFor.size() == 1);

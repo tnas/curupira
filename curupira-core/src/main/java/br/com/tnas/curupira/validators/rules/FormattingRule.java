@@ -1,27 +1,28 @@
 package br.com.tnas.curupira.validators.rules;
 
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.CNPJError;
-
-import java.util.regex.Pattern;
+import br.com.tnas.curupira.format.Formatter;
+import br.com.tnas.curupira.validators.InvalidValue;
 
 public class FormattingRule implements ValidationRule {
 
+    private final Formatter formatter;
     private final boolean isFormatted;
-    private final Pattern formattedPattern;
+    private final InvalidValue errorKey;
 
-    public FormattingRule(boolean isFormatted, Pattern formattedPattern) {
+    public FormattingRule(Formatter formatter, boolean isFormatted, InvalidValue errorKey) {
+        this.formatter = formatter;
         this.isFormatted = isFormatted;
-        this.formattedPattern = formattedPattern;
+        this.errorKey = errorKey;
     }
 
     @Override
     public ValidationMessage getErrorMessage() {
-        return messageProducer.getMessage(CNPJError.INVALID_FORMAT);
+        return messageProducer.getMessage(this.errorKey);
     }
 
     @Override
     public boolean validate(String value) {
-        return this.isFormatted == this.formattedPattern.matcher(value).matches();
+        return !this.isFormatted || this.formatter.getFormattedPattern().matcher(this.formatter.reformat(value)).matches();
     }
 }

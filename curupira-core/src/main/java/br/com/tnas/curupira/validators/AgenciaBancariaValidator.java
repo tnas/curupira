@@ -1,14 +1,13 @@
 package br.com.tnas.curupira.validators;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
 import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
+import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
+import br.com.tnas.curupira.validators.rules.FormattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Representa um validador de agencia bancária do Banco do Brasil.
@@ -26,57 +25,15 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 		this.isFormatted = isComDigito;
 	}
 
-	public void assertValid(String agencia) {
-		
-		List<ValidationMessage> errors = this.invalidMessagesFor(agencia);
-		
-		if (!errors.isEmpty()) {
-			throw new InvalidStateException(errors);
-	    }
-	}
-
 	@Override
-	public List<ValidationMessage> invalidMessagesFor(String agencia) {
+	protected String computeCheckDigits(String agenciaSemDV) {
 		
-		List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
-		
-		if (this.isEligible(agencia)) {
-			
-			if (this.isFormatted) {
-				
-				Matcher matcher = this.getFormattedPattern().matcher(agencia);
-				
-				if (!matcher.find()) {
-					throw new InvalidStateException(this.messageProducer.getMessage(AgenciaBancariaError.INVALID_FORMAT));
-				}
-				
-				String dvInformado = matcher.group(2);
-				String dvComputado = this.calculaDigitos(matcher.group(1));
-				
-				if (!dvInformado.equals(dvComputado)) {
-					errors.add(this.messageProducer.getMessage(AgenciaBancariaError.INVALID_CHECK_DIGIT));	
-				}
-				
-			} else {
-				errors.add(this.messageProducer.getMessage(AgenciaBancariaError.CHECK_DIGIT_NOT_FOUND));
-			}
-			
-		} else {
-			errors.add(this.messageProducer.getMessage(AgenciaBancariaError.INVALID_FORMAT));
-		}
-		
-		return errors;
-	}
-
-	@Override
-	protected String calculaDigitos(String agenciaSemDV) {
-		
-		String[] algarisms = agenciaSemDV.split(""); 
+		String[] algarisms = agenciaSemDV.split("");
 		int multiplier = 9;
 		int sum = 0;
 		
 		for (int index = algarisms.length - 1; index >= 0; --index) {
-			sum += Integer.valueOf(algarisms[index]) * multiplier--;
+			sum += Integer.parseInt(algarisms[index]) * multiplier--;
 		}
 		
 		int rest = sum % 11;
@@ -85,21 +42,27 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 
 	@Override
 	protected Pattern getFormattedPattern() {
-		return AgenciaBancariaFormatter.FORMATED;
+		return AgenciaBancariaFormatter.FORMATTED;
 	}
 
 	@Override
 	protected Pattern getUnformatedPattern() {
-		return AgenciaBancariaFormatter.UNFORMATED;
+		return AgenciaBancariaFormatter.UNFORMATTED;
 	}
 	
 	@Override
 	protected int getNoCheckDigitsSize() {
-		return AgenciaBancariaFormatter.NO_CHECKDIGITS_SIZE;
+		return AgenciaBancariaFormatter.NO_CHECK_DIGITS_SIZE;
 	}
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
-		return null;
+
+		var formatter = new AgenciaBancariaFormatter();
+
+		return List.of(
+				new FormattingRule(formatter, this.isFormatted, AgenciaBancariaError.INVALID_FORMAT),
+				new CheckDigitsRule(formatter, 1, this::computeCheckDigits, AgenciaBancariaError.INVALID_CHECK_DIGIT)
+		);
 	}
 }
