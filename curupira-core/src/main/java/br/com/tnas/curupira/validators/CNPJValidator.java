@@ -52,19 +52,12 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
         this.messageProducer = new SimpleMessageProducer();
     }
 
-    public CNPJValidator(MessageProducer messageProducer, boolean isFormatted, boolean isIgnoringRepeatedDigits) {
-    	this();
-        this.messageProducer = messageProducer;
-        this.isFormatted = isFormatted;
-        this.isIgnoringRepeatedDigits = isIgnoringRepeatedDigits;
-    }
-
     /**
      * <p>
      * Construtor do Validador de CNPJ. Leva em consideração se o valor está formatado.
      * </p>
      * <p>
-     * 
+     *
      * @param messageProducer
      *            produtor de mensagem de erro.
      * @param isFormatted
@@ -83,7 +76,7 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 
 	/**
 	 * Faz o cálculo dos digitos usando a lógica de CNPJ
-	 * 
+	 *
 	 * @return String os dois dígitos calculados.
 	 */
     @Override
