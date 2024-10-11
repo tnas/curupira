@@ -1,15 +1,17 @@
 package br.com.tnas.curupira.validators;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.CNPJFormatter;
-import br.com.tnas.curupira.validation.error.CNPJError;
+import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
+import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.RepeatedDigitsRule;
+import br.com.tnas.curupira.validators.rules.UnformattingRule;
+import br.com.tnas.curupira.validators.rules.ValidationRule;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Representa um validador de CNPJ.
@@ -78,46 +80,6 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 		this.messageProducer = messageProducer;
     }
 
-    @Override
-    public List<ValidationMessage> invalidMessagesFor(String cnpj) {
-
-    	List<ValidationMessage> errors = new ArrayList<ValidationMessage>();    	
-        
-        if (cnpj != null) {
-
-        	if(isFormatted != this.getFormatedPattern().matcher(cnpj).matches()) {
-        		errors.add(messageProducer.getMessage(CNPJError.INVALID_FORMAT));
-        	}
-        	
-        	String unformatedCNPJ = null;
-        	try{
-				unformatedCNPJ = new CNPJFormatter().unformat(cnpj);
-        	}catch(IllegalArgumentException e){
-        		errors.add(messageProducer.getMessage(CNPJError.INVALID_DIGITS));
-        		return errors;
-        	}
-        	
-            if(unformatedCNPJ.length() != 14 || !unformatedCNPJ.matches("[0-9]*")){
-            	errors.add(messageProducer.getMessage(CNPJError.INVALID_DIGITS));
-            }
-            
-            if ((!isIgnoringRepeatedDigits) && hasAllRepeatedDigits(unformatedCNPJ)) {
-                errors.add(messageProducer.getMessage(CNPJError.REPEATED_DIGITS));
-            }
-           
-            String cnpjSemDigito = unformatedCNPJ.substring(0, unformatedCNPJ.length() - 2);
-            String digitos = unformatedCNPJ.substring(unformatedCNPJ.length() - 2);
-
-			String digitosCalculados = calculaDigitos(cnpjSemDigito);
-
-            if(!digitos.equals(digitosCalculados)){
-            	errors.add(messageProducer.getMessage(CNPJError.INVALID_CHECK_DIGITS));
-            }
-            
-        }
-        return errors;
-    }
-
 	/**
 	 * Faz o cálculo dos digitos usando a lógica de CNPJ
 	 * 
@@ -136,18 +98,28 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 	}
 
 	@Override
-	protected Pattern getFormatedPattern() {
-		return CNPJFormatter.FORMATED;
+	protected Pattern getFormattedPattern() {
+		return CNPJFormatter.FORMATTED;
 	}
 
 	@Override
 	protected Pattern getUnformatedPattern() {
-		return CNPJFormatter.UNFORMATED;
+		return CNPJFormatter.UNFORMATTED;
 	}
 
 	@Override
 	protected int getNoCheckDigitsSize() {
-		return CNPJFormatter.NO_CHECKDIGITS_SIZE;
+		return CNPJFormatter.NO_CHECK_DIGITS_SIZE;
+	}
+
+	@Override
+	protected List<ValidationRule> getValidationRules() {
+		return List.of(
+				new FormattingRule(this.isFormatted, this.getFormattedPattern()),
+				new UnformattingRule(new CNPJFormatter(), 14, "[0-9]*"),
+				new RepeatedDigitsRule(new CNPJFormatter(), this.isIgnoringRepeatedDigits),
+				new CheckDigitsRule(new CNPJFormatter(), 2, this::calculaDigitos)
+		);
 	}
     
 }

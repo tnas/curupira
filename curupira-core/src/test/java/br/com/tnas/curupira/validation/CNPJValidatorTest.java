@@ -94,10 +94,16 @@ public class CNPJValidatorTest {
     }
 
     @Test
-    public void shoulValidateNullCNPJ() {
-        CNPJValidator validator = new CNPJValidator();
-        String value = null;
-        validator.assertValid(value);
+    public void shoulNotValidateNullCNPJ() {
+        try {
+            CNPJValidator validator = new CNPJValidator();
+            String value = null;
+            validator.assertValid(value);
+            fail();
+        } catch (InvalidStateException e) {
+            assertTrue(e.getInvalidMessages().size() == 1);
+            assertMessage(e, INVALID_DIGITS);
+        }
     }
 
     @Test

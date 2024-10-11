@@ -14,6 +14,7 @@ import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.TituloEleitoralFormatter;
 import br.com.tnas.curupira.type.Estado;
 import br.com.tnas.curupira.validation.error.TituloEleitoralError;
+import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
  * Representa um validador de Título de Eleitor. O algoritmo utilzado foi
@@ -122,7 +123,7 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
         List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
         if (tituloDeEleitor != null) { 
         	
-			if (isFormatted && !this.getFormatedPattern().matcher(tituloDeEleitor).matches()) {
+			if (isFormatted && !this.getFormattedPattern().matcher(tituloDeEleitor).matches()) {
 				errors.add(messageProducer.getMessage(TituloEleitoralError.INVALID_FORMAT));
 			}
 
@@ -213,7 +214,7 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
 	}
 
 	@Override
-	protected Pattern getFormatedPattern() {
+	protected Pattern getFormattedPattern() {
 		return TituloEleitoralFormatter.FORMATED;
 	}
 
@@ -225,5 +226,10 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
 	@Override
 	protected int getNoCheckDigitsSize() {
 		return TituloEleitoralFormatter.NO_CHECKDIGITS_SIZE;
+	}
+
+	@Override
+	protected List<ValidationRule> getValidationRules() {
+		return null;
 	}
 }

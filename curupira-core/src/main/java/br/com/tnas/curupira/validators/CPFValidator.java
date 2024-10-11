@@ -10,6 +10,7 @@ import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.CPFFormatter;
 import br.com.tnas.curupira.validation.error.CPFError;
+import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
  * Verifica se uma cadeia (String) é válida para o documento de CPF (Cadastro de
@@ -115,7 +116,7 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
             return errors;
         }
 
-        if (isFormatted != this.getFormatedPattern().matcher(cpf).matches()) {
+        if (isFormatted != this.getFormattedPattern().matcher(cpf).matches()) {
             errors.add(messageProducer.getMessage(CPFError.INVALID_FORMAT));
         }
 
@@ -165,7 +166,7 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
     }
 
 	@Override
-	protected Pattern getFormatedPattern() {
+	protected Pattern getFormattedPattern() {
 		return CPFFormatter.FORMATED;
 	}
 
@@ -178,4 +179,9 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
 	protected int getNoCheckDigitsSize() {
 		return CPFFormatter.NO_CHECKDIGITS_SIZE;
 	}
+
+    @Override
+    protected List<ValidationRule> getValidationRules() {
+        return null;
+    }
 }

@@ -10,6 +10,7 @@ import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.RenavamFormatter;
 import br.com.tnas.curupira.validation.error.RenavamError;
+import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
  * <p>
@@ -83,7 +84,7 @@ public class RenavamValidator extends DocumentoValidator<RenavamFormatter> {
 
 			renavam = formataPadraoNovo(renavam);
 			
-			if (isFormatted && !this.getFormatedPattern().matcher(renavam).matches()) {
+			if (isFormatted && !this.getFormattedPattern().matcher(renavam).matches()) {
 				errors.add(messageProducer.getMessage(RenavamError.INVALID_FORMAT));
 			}
 
@@ -124,7 +125,7 @@ public class RenavamValidator extends DocumentoValidator<RenavamFormatter> {
 	}
 
 	@Override
-	protected Pattern getFormatedPattern() {
+	protected Pattern getFormattedPattern() {
 		return RenavamFormatter.FORMATED;
 	}
 
@@ -136,5 +137,10 @@ public class RenavamValidator extends DocumentoValidator<RenavamFormatter> {
 	@Override
 	protected int getNoCheckDigitsSize() {
 		return RenavamFormatter.NO_CHECKDIGITS_SIZE;
+	}
+
+	@Override
+	protected List<ValidationRule> getValidationRules() {
+		return null;
 	}
 }

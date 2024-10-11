@@ -10,6 +10,7 @@ import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.NITFormatter;
 import br.com.tnas.curupira.validation.error.NITError;
+import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
  * <p>
@@ -69,7 +70,7 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
 		List<ValidationMessage> errors = new ArrayList<ValidationMessage>();
 		if (nit != null) {
 		
-			if(isFormatted && !this.getFormatedPattern().matcher(nit).matches()){
+			if(isFormatted && !this.getFormattedPattern().matcher(nit).matches()){
 				errors.add(messageProducer.getMessage(NITError.INVALID_FORMAT));
 			}
 			
@@ -104,7 +105,7 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
 	}
     
 	@Override
-	protected Pattern getFormatedPattern() {
+	protected Pattern getFormattedPattern() {
 		return NITFormatter.FORMATED;
 	}
 
@@ -116,5 +117,10 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
 	@Override
 	protected int getNoCheckDigitsSize() {
 		return NITFormatter.NO_CHECKDIGITS_SIZE;
+	}
+
+	@Override
+	protected List<ValidationRule> getValidationRules() {
+		return null;
 	}
 }

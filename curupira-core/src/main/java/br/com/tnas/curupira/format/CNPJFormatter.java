@@ -8,14 +8,14 @@ import java.util.regex.Pattern;
  */
 public class CNPJFormatter implements Formatter {
 	
-	public static final int NO_CHECKDIGITS_SIZE = 12;
-	public static final Pattern FORMATED = Pattern.compile("(\\d{2})[.](\\d{3})[.](\\d{3})/(\\d{4})-(\\d{2})");
-	public static final Pattern UNFORMATED = Pattern.compile("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})");
+	public static final int NO_CHECK_DIGITS_SIZE = 12;
+	public static final Pattern FORMATTED = Pattern.compile("(\\d{2})[.](\\d{3})[.](\\d{3})/(\\d{4})-(\\d{2})");
+	public static final Pattern UNFORMATTED = Pattern.compile("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})");
 	
     private final BaseFormatter base;
 
     public CNPJFormatter() {
-        this.base = new BaseFormatter(FORMATED, "$1.$2.$3/$4-$5", UNFORMATED, "$1$2$3$4$5");
+        this.base = new BaseFormatter(FORMATTED, "$1.$2.$3/$4-$5", UNFORMATTED, "$1$2$3$4$5");
     }
 
 	public String format(String value) {

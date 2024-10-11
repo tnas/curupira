@@ -1,12 +1,17 @@
 package br.com.tnas.curupira.validators;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
+import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
+import br.com.tnas.curupira.validators.rules.NullRule;
+import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 public abstract class DocumentoValidator<F extends Formatter> implements Validator<String> {
 
@@ -14,18 +19,37 @@ public abstract class DocumentoValidator<F extends Formatter> implements Validat
 	protected boolean isFormatted;
 	protected MessageProducer messageProducer;
 	
-	public DocumentoValidator() {
+	protected DocumentoValidator() {
 		this.messageProducer = new SimpleMessageProducer();
 	}
 
 	protected abstract int getNoCheckDigitsSize();
 	
-	protected abstract Pattern getFormatedPattern();
+	protected abstract Pattern getFormattedPattern();
 	
 	protected abstract Pattern getUnformatedPattern();
 	
 	protected abstract String calculaDigitos(String valueWithoutDigit);
-	
+
+	protected abstract List<ValidationRule> getValidationRules();
+
+	@Override
+	public List<ValidationMessage> invalidMessagesFor(String value) {
+
+		var messages = new ArrayList<ValidationMessage>();
+
+		var rules = new ArrayList<>(this.getValidationRules());
+		rules.addFirst(new NullRule());
+
+		var error = rules
+				.stream()
+				.filter(r -> !r.validate(value)).map(ValidationRule::getErrorMessage)
+				.findFirst();
+        error.ifPresent(messages::add);
+
+		return messages;
+	}
+
 	@Override
     public void assertValid(String value) {
     	
@@ -39,7 +63,7 @@ public abstract class DocumentoValidator<F extends Formatter> implements Validat
 	@Override
 	public boolean isEligible(String value) {
 		return Objects.nonNull(value) && !value.isBlank() 
-				&& (isFormatted ? getFormatedPattern() : getUnformatedPattern()).matcher(value).matches();
+				&& (isFormatted ? getFormattedPattern() : getUnformatedPattern()).matcher(value).matches();
 	}
 	
     @Override

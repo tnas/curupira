@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
 import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
+import br.com.tnas.curupira.validators.rules.ValidationRule;
 
 /**
  * Representa um validador de agencia bancária do Banco do Brasil.
@@ -43,7 +44,7 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 			
 			if (this.isFormatted) {
 				
-				Matcher matcher = this.getFormatedPattern().matcher(agencia);
+				Matcher matcher = this.getFormattedPattern().matcher(agencia);
 				
 				if (!matcher.find()) {
 					throw new InvalidStateException(this.messageProducer.getMessage(AgenciaBancariaError.INVALID_FORMAT));
@@ -83,7 +84,7 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 	}
 
 	@Override
-	protected Pattern getFormatedPattern() {
+	protected Pattern getFormattedPattern() {
 		return AgenciaBancariaFormatter.FORMATED;
 	}
 
@@ -97,4 +98,8 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 		return AgenciaBancariaFormatter.NO_CHECKDIGITS_SIZE;
 	}
 
+	@Override
+	protected List<ValidationRule> getValidationRules() {
+		return null;
+	}
 }
