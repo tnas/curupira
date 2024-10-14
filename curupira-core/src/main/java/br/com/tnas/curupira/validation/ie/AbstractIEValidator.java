@@ -10,8 +10,8 @@ import javax.swing.text.MaskFormatter;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.IEError;
+import br.com.tnas.curupira.validation.error.InvalidValue;
 import br.com.tnas.curupira.validators.BaseValidator;
-import br.com.tnas.curupira.validators.InvalidValue;
 import br.com.tnas.curupira.validators.Validator;
 
 public abstract class AbstractIEValidator implements Validator<String> {

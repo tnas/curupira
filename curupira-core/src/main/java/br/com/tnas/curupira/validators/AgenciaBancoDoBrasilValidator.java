@@ -3,7 +3,7 @@ package br.com.tnas.curupira.validators;
 import java.util.List;
 
 import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
-import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
+import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
 import br.com.tnas.curupira.validators.rules.NullRule;
@@ -14,13 +14,13 @@ import br.com.tnas.curupira.validators.rules.ValidationRule;
  * 
  * @author Thiago Nascimento
  */
-public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancariaFormatter> {
+public class AgenciaBancoDoBrasilValidator extends DocumentoValidator<AgenciaBancariaFormatter> {
 
-    public AgenciaBancariaValidator() {
+    public AgenciaBancoDoBrasilValidator() {
     	this.formatter = new AgenciaBancariaFormatter();
 	}
     
-	public AgenciaBancariaValidator(boolean isComDigito) {
+	public AgenciaBancoDoBrasilValidator(boolean isComDigito) {
 		this();
 		this.isFormatted = isComDigito;
 	}
@@ -43,9 +43,9 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 	@Override
 	protected List<ValidationRule> getValidationRules() {
 		return List.of(
-				new NullRule(AgenciaBancariaError.INVALID_FORMAT),
-				new FormattingRule(formatter, this.isFormatted, AgenciaBancariaError.INVALID_FORMAT),
-				new CheckDigitsRule(formatter, this::computeCheckDigits, AgenciaBancariaError.INVALID_CHECK_DIGIT)
+				new NullRule(),
+				new FormattingRule(formatter, Validatable.AgenciaBancoDoBrasil, this.isFormatted),
+				new CheckDigitsRule(formatter, Validatable.AgenciaBancoDoBrasil, this::computeCheckDigits)
 		);
 	}
 }

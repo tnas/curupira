@@ -5,7 +5,7 @@ import java.util.List;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.CNPJFormatter;
-import br.com.tnas.curupira.validation.error.CNPJError;
+import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
 import br.com.tnas.curupira.validators.rules.NullRule;
@@ -69,11 +69,11 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 	@Override
 	protected List<ValidationRule> getValidationRules() {
 		return List.of(
-				new NullRule(CNPJError.INVALID_DIGITS),
-				new FormattingRule(this.formatter, this.isFormatted, CNPJError.INVALID_FORMAT),
-				new UnformattingRule(this.formatter, CNPJError.INVALID_DIGITS),
-				new RepeatedDigitsRule(this.formatter, this.isIgnoringRepeatedDigits, CNPJError.REPEATED_DIGITS),
-				new CheckDigitsRule(this.formatter, this::computeCheckDigits, CNPJError.INVALID_CHECK_DIGITS)
+				new NullRule(),
+				new FormattingRule(this.formatter, Validatable.CNPJ, this.isFormatted),
+				new UnformattingRule(this.formatter, Validatable.CNPJ),
+				new RepeatedDigitsRule(this.formatter, Validatable.CNPJ, this.isIgnoringRepeatedDigits),
+				new CheckDigitsRule(this.formatter, Validatable.CNPJ, this::computeCheckDigits)
 		);
 	}
     

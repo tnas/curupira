@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import br.com.tnas.curupira.validators.InvalidValue;
+import br.com.tnas.curupira.validation.error.InvalidValue;
 
 /**
  * <p>

@@ -7,6 +7,7 @@ import java.util.List;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.validation.error.InvalidValue;
 
 public class LogicOrComposedValidator<T> implements Validator<T> {
 

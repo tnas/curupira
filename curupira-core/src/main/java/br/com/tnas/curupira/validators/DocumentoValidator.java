@@ -7,7 +7,6 @@ import java.util.Objects;
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
@@ -18,10 +17,6 @@ public abstract class DocumentoValidator<F extends Formatter> implements Validat
 	protected boolean isFormatted;
 	protected MessageProducer messageProducer;
 	
-	protected DocumentoValidator() {
-		this.messageProducer = new SimpleMessageProducer();
-	}
-
 	protected abstract List<ValidationRule> getValidationRules();
 	
 	protected String computeCheckDigits(String valueWithoutDigit) {

@@ -112,7 +112,7 @@ public class RenavamValidationTest {
 
         invalidMessagesFor = validator.invalidMessagesFor(renavamUnformattedWithInvalidCheckDigit);
         assertTrue(invalidMessagesFor.size() == 1);
-        assertEquals("RenavamError : INVALID CHECK DIGIT", invalidMessagesFor.get(0).getMessage());
+        assertEquals("RenavamError : INVALID CHECK DIGITS", invalidMessagesFor.get(0).getMessage());
     }
 
     @Test
@@ -126,7 +126,7 @@ public class RenavamValidationTest {
 
         invalidMessagesFor = validator.invalidMessagesFor(renavamFormattedWithInvalidCheckDigit);
         assertTrue(invalidMessagesFor.size() == 1);
-        assertEquals("RenavamError : INVALID CHECK DIGIT", invalidMessagesFor.get(0).getMessage());
+        assertEquals("RenavamError : INVALID CHECK DIGITS", invalidMessagesFor.get(0).getMessage());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class RenavamValidationTest {
         } catch (InvalidStateException e) {
             List<ValidationMessage> errors = e.getInvalidMessages();
             assertTrue(errors.size() == 1);
-            assertEquals("RenavamError : INVALID CHECK DIGIT", errors.get(0).getMessage());
+            assertEquals("RenavamError : INVALID CHECK DIGITS", errors.get(0).getMessage());
         }
     }
 

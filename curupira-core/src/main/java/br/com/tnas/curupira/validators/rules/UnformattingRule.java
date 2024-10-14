@@ -1,16 +1,16 @@
 package br.com.tnas.curupira.validators.rules;
 
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validators.InvalidValue;
+import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 
 public class UnformattingRule extends ValidationRule {
 
     private final int unformattedSize;
 
-    public UnformattingRule(Formatter formatter, InvalidValue errorKey) {
-        this.formatter = formatter;
+    public UnformattingRule(Formatter formatter, Validatable validatable) {
+    	super(formatter, validatable);
         this.unformattedSize = this.formatter.getNoCheckDigitsSize() + this.formatter.getNumberOfCheckDigits();
-        this.errorKey = errorKey;
     }
 
     @Override
@@ -23,4 +23,9 @@ public class UnformattingRule extends ValidationRule {
             return false;
         }
     }
+    
+    @Override
+	public ValidationError getValidationError() {
+		return ValidationError.INVALID_DIGITS;
+	}
 }

@@ -3,16 +3,16 @@ package br.com.tnas.curupira.validators.rules;
 import java.util.function.UnaryOperator;
 
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validators.InvalidValue;
+import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 
 public class CheckDigitsRule extends ValidationRule {
 
     private final UnaryOperator<String> digitsCalculator;
 
-    public CheckDigitsRule(Formatter formatter, UnaryOperator<String> digitsCalculator, InvalidValue errorKey) {
-        this.formatter = formatter;
+    public CheckDigitsRule(Formatter formatter, Validatable validatable, UnaryOperator<String> digitsCalculator) {
+        super(formatter, validatable);
         this.digitsCalculator = digitsCalculator;
-        this.errorKey = errorKey;
     }
 
     @Override
@@ -22,4 +22,9 @@ public class CheckDigitsRule extends ValidationRule {
         String checkDigits = unformattedValue.substring(unformattedValue.length() - this.formatter.getNumberOfCheckDigits());
         return checkDigits.equals(this.digitsCalculator.apply(noDigitsValue));
     }
+    
+    @Override
+	public ValidationError getValidationError() {
+		return ValidationError.INVALID_CHECK_DIGITS;
+	}
 }

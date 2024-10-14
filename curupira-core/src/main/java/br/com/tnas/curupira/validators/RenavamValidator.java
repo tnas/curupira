@@ -5,7 +5,7 @@ import java.util.List;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.RenavamFormatter;
-import br.com.tnas.curupira.validation.error.RenavamError;
+import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
 import br.com.tnas.curupira.validators.rules.NullRule;
@@ -71,10 +71,10 @@ public class RenavamValidator extends DocumentoValidator<RenavamFormatter> {
 	protected List<ValidationRule> getValidationRules() {
 		this.formatter.setFormatted(this.isFormatted);
 		return List.of(
-				new NullRule(RenavamError.INVALID_DIGITS),
-				new FormattingRule(formatter, this.isFormatted, RenavamError.INVALID_FORMAT),
-				new UnformattingRule(formatter, RenavamError.INVALID_DIGITS),
-				new CheckDigitsRule(formatter, this::computeCheckDigits, RenavamError.INVALID_CHECK_DIGIT)
+				new NullRule(),
+				new FormattingRule(formatter, Validatable.Renavam, this.isFormatted),
+				new UnformattingRule(formatter, Validatable.Renavam),
+				new CheckDigitsRule(formatter, Validatable.Renavam, this::computeCheckDigits)
 		);
 	}
 }

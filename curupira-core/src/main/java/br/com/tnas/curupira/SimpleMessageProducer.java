@@ -1,6 +1,6 @@
 package br.com.tnas.curupira;
 
-import br.com.tnas.curupira.validators.InvalidValue;
+import br.com.tnas.curupira.validation.error.InvalidValue;
 
 /**
  * <p>

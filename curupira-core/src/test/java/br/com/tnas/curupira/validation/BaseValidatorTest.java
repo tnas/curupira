@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.validation.error.InvalidValue;
 import br.com.tnas.curupira.validators.BaseValidator;
 import br.com.tnas.curupira.validators.InvalidStateException;
-import br.com.tnas.curupira.validators.InvalidValue;
 
 public class BaseValidatorTest {
 

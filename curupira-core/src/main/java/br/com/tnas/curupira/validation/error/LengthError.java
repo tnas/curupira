@@ -1,7 +1,5 @@
 package br.com.tnas.curupira.validation.error;
 
-import br.com.tnas.curupira.validators.InvalidValue;
-
 /**
  * Representa possíveis erros na validação do tamanho de dígitos.
  * 
