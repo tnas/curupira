@@ -1,4 +1,4 @@
-package br.com.tnas.curupira.validators;
+package br.com.tnas.curupira.validator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

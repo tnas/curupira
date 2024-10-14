@@ -1,4 +1,4 @@
-package br.com.tnas.curupira.validators;
+package br.com.tnas.curupira.validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validators.rules.ValidationRule;
+import br.com.tnas.curupira.validator.rule.ValidationRule;
 
 public abstract class DocumentoValidator<F extends Formatter> implements Validator<String> {
 

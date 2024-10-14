@@ -1,4 +1,4 @@
-package br.com.tnas.curupira.validators.rules;
+package br.com.tnas.curupira.validator.rule;
 
 import br.com.tnas.curupira.format.Formatter;
 import br.com.tnas.curupira.validation.error.Validatable;

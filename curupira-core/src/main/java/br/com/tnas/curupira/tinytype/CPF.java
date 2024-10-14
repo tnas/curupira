@@ -1,7 +1,7 @@
 package br.com.tnas.curupira.tinytype;
 
 import br.com.tnas.curupira.format.CPFFormatter;
-import br.com.tnas.curupira.validators.CPFValidator;
+import br.com.tnas.curupira.validator.CPFValidator;
 
 /**
  * Representa um Cadastro de Pessoas Física - CPF.

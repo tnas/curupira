@@ -10,8 +10,8 @@ import org.junit.platform.suite.api.Suite;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.validation.error.IEError;
-import br.com.tnas.curupira.validators.InvalidStateException;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.InvalidStateException;
+import br.com.tnas.curupira.validator.Validator;
 
 @Suite
 @SelectClasses({ IEPernambucoValidatorTest.IEPernambucoValidatorAntigoFormato.class,

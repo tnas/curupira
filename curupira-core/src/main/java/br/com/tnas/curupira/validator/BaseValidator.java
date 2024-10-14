@@ -1,6 +1,5 @@
-package br.com.tnas.curupira.validators;
+package br.com.tnas.curupira.validator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tnas.curupira.BasicMessageProducer;
@@ -8,6 +7,8 @@ import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.InvalidValue;
+import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 
 /**
  * <p>
@@ -48,14 +49,13 @@ public class BaseValidator {
      * @return lista de mensagens inválidas obtida pelo produto de mensagem.
      */
     public List<ValidationMessage> generateValidationMessages(List<InvalidValue> invalidValues) {
-        List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
-        for (InvalidValue invalidValue : invalidValues) {
-            ValidationMessage message = messageProducer.getMessage(invalidValue);
-            messages.add(message);
-        }
-        return messages;
+    	return invalidValues.stream().map(e -> this.messageProducer.getMessage(e)).toList();
     }
 
+    public List<ValidationMessage> getValidationMessages(List<ValidationError> errors) {
+    	return errors.stream().map(e -> this.messageProducer.getMessage(e)).toList();
+    }
+    
     /**
      * @param invalidValues
      *            lista de valores que descrevem erros de validação.
@@ -68,8 +68,8 @@ public class BaseValidator {
         }
     }
     
-	public MessageProducer getMessageProducer() {
-		return messageProducer;
+	protected ValidationMessage getValidationMessage(ValidationError error, Validatable validatable) {
+		return this.messageProducer.getMessage(error, validatable);
 	}
 
 }

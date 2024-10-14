@@ -1,4 +1,4 @@
-package br.com.tnas.curupira.validators.rules;
+package br.com.tnas.curupira.validator.rule;
 
 import java.util.function.UnaryOperator;
 

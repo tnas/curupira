@@ -12,7 +12,7 @@ import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.IEError;
 import br.com.tnas.curupira.validation.error.InvalidValue;
-import br.com.tnas.curupira.validators.BaseValidator;
+import br.com.tnas.curupira.validator.BaseValidator;
 
 public class IERioGrandeDoSulValidator extends AbstractIEValidator {
 

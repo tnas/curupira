@@ -1,4 +1,4 @@
-package br.com.tnas.curupira.validators;
+package br.com.tnas.curupira.validator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,12 +11,12 @@ import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.TituloEleitoralFormatter;
 import br.com.tnas.curupira.type.Estado;
 import br.com.tnas.curupira.validation.error.Validatable;
-import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
-import br.com.tnas.curupira.validators.rules.ElectoralStateCodeRule;
-import br.com.tnas.curupira.validators.rules.FormattingRule;
-import br.com.tnas.curupira.validators.rules.NullRule;
-import br.com.tnas.curupira.validators.rules.UnformattingRule;
-import br.com.tnas.curupira.validators.rules.ValidationRule;
+import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
+import br.com.tnas.curupira.validator.rule.ElectoralStateCodeRule;
+import br.com.tnas.curupira.validator.rule.FormattingRule;
+import br.com.tnas.curupira.validator.rule.NullRule;
+import br.com.tnas.curupira.validator.rule.UnformattingRule;
+import br.com.tnas.curupira.validator.rule.ValidationRule;
 
 /**
  * Representa um validador de Título de Eleitor. O algoritmo utilzado foi

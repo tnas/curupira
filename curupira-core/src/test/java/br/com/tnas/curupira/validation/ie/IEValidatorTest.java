@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.IEError;
-import br.com.tnas.curupira.validators.InvalidStateException;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.InvalidStateException;
+import br.com.tnas.curupira.validator.Validator;
 
 public abstract class IEValidatorTest {
 	protected final MessageProducer messageProducer = mock(MessageProducer.class);

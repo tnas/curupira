@@ -1,7 +1,7 @@
 package br.com.tnas.curupira.validation.ie;
 
 import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.Validator;
 
 public class IEAmapaValidatorTest extends IEValidatorTest {
 

@@ -1,13 +1,13 @@
-package br.com.tnas.curupira.validators;
+package br.com.tnas.curupira.validator;
 
 import java.util.List;
 
 import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
 import br.com.tnas.curupira.validation.error.Validatable;
-import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
-import br.com.tnas.curupira.validators.rules.FormattingRule;
-import br.com.tnas.curupira.validators.rules.NullRule;
-import br.com.tnas.curupira.validators.rules.ValidationRule;
+import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
+import br.com.tnas.curupira.validator.rule.FormattingRule;
+import br.com.tnas.curupira.validator.rule.NullRule;
+import br.com.tnas.curupira.validator.rule.ValidationRule;
 
 /**
  * Representa um validador de agencia bancária do Banco do Brasil.

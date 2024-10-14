@@ -14,8 +14,8 @@ import br.com.tnas.curupira.SimpleValidationMessage;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validation.error.ValidationError;
-import br.com.tnas.curupira.validators.InvalidStateException;
-import br.com.tnas.curupira.validators.LengthValidator;
+import br.com.tnas.curupira.validator.InvalidStateException;
+import br.com.tnas.curupira.validator.LengthValidator;
 
 public class LengthValidatorTest {
 

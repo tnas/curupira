@@ -8,8 +8,8 @@ import org.mockito.Mockito;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.validation.error.IEError;
-import br.com.tnas.curupira.validators.InvalidStateException;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.InvalidStateException;
+import br.com.tnas.curupira.validator.Validator;
 
 public class IEDistritoFederalValidatorTest extends IEValidatorTest {
 

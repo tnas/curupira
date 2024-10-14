@@ -10,8 +10,8 @@ import br.com.tnas.curupira.BasicMessageProducer;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validation.error.ValidationError;
-import br.com.tnas.curupira.validators.AgenciaBancoDoBrasilValidator;
-import br.com.tnas.curupira.validators.InvalidStateException;
+import br.com.tnas.curupira.validator.AgenciaBancoDoBrasilValidator;
+import br.com.tnas.curupira.validator.InvalidStateException;
 
 /**
  * @author Thiago Nascimento

@@ -1,4 +1,4 @@
-package br.com.tnas.curupira.validators;
+package br.com.tnas.curupira.validator;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.CPFFormatter;
 import br.com.tnas.curupira.validation.error.Validatable;
-import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
-import br.com.tnas.curupira.validators.rules.FormattingRule;
-import br.com.tnas.curupira.validators.rules.NullRule;
-import br.com.tnas.curupira.validators.rules.RepeatedDigitsRule;
-import br.com.tnas.curupira.validators.rules.UnformattingRule;
-import br.com.tnas.curupira.validators.rules.ValidationRule;
+import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
+import br.com.tnas.curupira.validator.rule.FormattingRule;
+import br.com.tnas.curupira.validator.rule.NullRule;
+import br.com.tnas.curupira.validator.rule.RepeatedDigitsRule;
+import br.com.tnas.curupira.validator.rule.UnformattingRule;
+import br.com.tnas.curupira.validator.rule.ValidationRule;
 
 /**
  * Verifica se uma cadeia (String) é válida para o documento de CPF (Cadastro de

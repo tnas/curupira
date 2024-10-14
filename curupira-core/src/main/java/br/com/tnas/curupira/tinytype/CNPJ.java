@@ -1,7 +1,7 @@
 package br.com.tnas.curupira.tinytype;
 
 import br.com.tnas.curupira.format.CNPJFormatter;
-import br.com.tnas.curupira.validators.CNPJValidator;
+import br.com.tnas.curupira.validator.CNPJValidator;
 
 /**
  * Representa um Cadastro Nacional da Pessoa Jurídica - CNPJ.

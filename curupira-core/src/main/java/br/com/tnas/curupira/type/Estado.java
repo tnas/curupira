@@ -30,7 +30,7 @@ import br.com.tnas.curupira.validation.ie.IESantaCatarinaValidator;
 import br.com.tnas.curupira.validation.ie.IESaoPauloValidator;
 import br.com.tnas.curupira.validation.ie.IESergipeValidator;
 import br.com.tnas.curupira.validation.ie.IETocantinsValidator;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.Validator;
 
 /**
  * Respresenta um estado brasileiro, ou o Destrito Federal.

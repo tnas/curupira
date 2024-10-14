@@ -7,8 +7,8 @@ import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.IEError;
-import br.com.tnas.curupira.validators.LogicOrComposedValidator;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.LogicOrComposedValidator;
+import br.com.tnas.curupira.validator.Validator;
 
 public class IEPernambucoValidator implements Validator<String> {
 

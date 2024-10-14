@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.validators.InvalidStateException;
-import br.com.tnas.curupira.validators.TituloEleitoralValidator;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.InvalidStateException;
+import br.com.tnas.curupira.validator.TituloEleitoralValidator;
+import br.com.tnas.curupira.validator.Validator;
 
 /**
  * @author Leonardo Bessa

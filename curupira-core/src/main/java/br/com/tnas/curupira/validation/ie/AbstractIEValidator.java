@@ -11,8 +11,8 @@ import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.IEError;
 import br.com.tnas.curupira.validation.error.InvalidValue;
-import br.com.tnas.curupira.validators.BaseValidator;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.BaseValidator;
+import br.com.tnas.curupira.validator.Validator;
 
 public abstract class AbstractIEValidator implements Validator<String> {
 
@@ -66,6 +66,7 @@ public abstract class AbstractIEValidator implements Validator<String> {
 
 	protected abstract Pattern getFormattedPattern();
 
+	@Override
 	public boolean isEligible(String value) {
 		boolean result;
 		if (isFormatted) {
@@ -76,10 +77,12 @@ public abstract class AbstractIEValidator implements Validator<String> {
 		return result;
 	}
 
+	@Override
 	public void assertValid(String IE) {
 		baseValidator.assertValid(getInvalidValues(IE));
 	}
 
+	@Override
 	public List<ValidationMessage> invalidMessagesFor(String IE) {
 		return baseValidator.generateValidationMessages(getInvalidValues(IE));
 	}

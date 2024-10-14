@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.validators.InvalidStateException;
-import br.com.tnas.curupira.validators.NITValidator;
+import br.com.tnas.curupira.validator.InvalidStateException;
+import br.com.tnas.curupira.validator.NITValidator;
 
 /**
  * @author Leonardo Bessa

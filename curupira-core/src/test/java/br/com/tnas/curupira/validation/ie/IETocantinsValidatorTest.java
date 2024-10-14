@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validators.Validator;
+import br.com.tnas.curupira.validator.Validator;
 
 public class IETocantinsValidatorTest extends IEValidatorTest {
 
