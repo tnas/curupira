@@ -27,4 +27,8 @@ public interface MessageProducer {
     default ValidationMessage getMessage(ValidationError invalidValue, Validatable validatable) {
     	throw new UnsupportedOperationException();
     }
+    
+    default ValidationMessage getMessage(ValidationError invalidValue) {
+    	throw new UnsupportedOperationException();
+    }
 }

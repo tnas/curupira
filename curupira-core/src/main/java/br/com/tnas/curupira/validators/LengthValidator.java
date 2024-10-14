@@ -2,11 +2,12 @@ package br.com.tnas.curupira.validators;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.InvalidValue;
-import br.com.tnas.curupira.validation.error.LengthError;
+import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 
 /**
  * Validador para aceitar cadeias de tamanho pré-definido. A cadeia verificada
@@ -42,28 +43,34 @@ public class LengthValidator implements Validator<Object> {
         this.validLength = validLength;
     }
 
+    @Override
     public void assertValid(Object object) {
-        base.assertValid(getInvalidValuesFor(object));
-    }
-
-    private List<InvalidValue> getInvalidValuesFor(Object object) {
-        List<InvalidValue> messages = new ArrayList<InvalidValue>();
-        if (object.toString().length() != validLength) {
-            messages.add(new LengthError(validLength));
+    	
+    	var validationMessages = this.invalidMessagesFor(object);
+    	
+    	if (!validationMessages.isEmpty()) {
+            throw new InvalidStateException(validationMessages);
         }
-        return messages;
     }
 
+    @Override
     public List<ValidationMessage> invalidMessagesFor(Object object) {
-        List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
-        messages.addAll(base.generateValidationMessages(getInvalidValuesFor(object)));
+    	
+    	List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
+    	
+    	if (Objects.isNull(object) || object.toString().length() != validLength) {
+    		messages.add(this.base.getMessageProducer().getMessage(ValidationError.INVALID_LENGTH, Validatable.Length));
+    	}
+    	
         return messages;
     }
-
+    
+    @Override
     public boolean isEligible(Object object) {
         return true;
     }
 
+    @Override
     public Object generateRandomValid() {
         throw new UnsupportedOperationException("Operação não suportada por este validador");
     }

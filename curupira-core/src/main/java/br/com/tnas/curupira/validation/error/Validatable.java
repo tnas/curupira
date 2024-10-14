@@ -7,5 +7,6 @@ public enum Validatable {
 	NIT,
 	Renavam,
 	TituloEleitoral,
-	AgenciaBancoDoBrasil
+	AgenciaBancoDoBrasil, 
+	Length
 }

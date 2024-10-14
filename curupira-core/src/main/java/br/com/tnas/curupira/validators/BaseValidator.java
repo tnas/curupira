@@ -3,6 +3,7 @@ package br.com.tnas.curupira.validators;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.tnas.curupira.BasicMessageProducer;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
@@ -23,13 +24,14 @@ import br.com.tnas.curupira.validation.error.InvalidValue;
  * @author leobessa
  */
 public class BaseValidator {
+	
     private final MessageProducer messageProducer;
 
     /**
      * Utiliza um {@linkplain SimpleMessageProducer}.
      */
     public BaseValidator() {
-        this.messageProducer = new SimpleMessageProducer();
+        this.messageProducer = new BasicMessageProducer();
     }
 
     /**
@@ -65,5 +67,9 @@ public class BaseValidator {
             throw new InvalidStateException(generateValidationMessages(invalidValues));
         }
     }
+    
+	public MessageProducer getMessageProducer() {
+		return messageProducer;
+	}
 
 }
