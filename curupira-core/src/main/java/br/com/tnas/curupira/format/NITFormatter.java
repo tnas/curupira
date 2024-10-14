@@ -7,7 +7,8 @@ import java.util.regex.Pattern;
  */
 public class NITFormatter implements Formatter {
 
-	public static final int NO_CHECKDIGITS_SIZE = 10;
+	public static final int NO_CHECK_DIGITS_SIZE = 10;
+	public static final int NUMBER_OF_CHECK_DIGITS = 1;
 	public static final Pattern FORMATED = Pattern.compile("(\\d{3})[.](\\d{5})[.](\\d{2})-(\\d{1})");
 	public static final Pattern UNFORMATED = Pattern.compile("(\\d{3})(\\d{5})(\\d{2})(\\d{1})");
 	
@@ -42,4 +43,14 @@ public class NITFormatter implements Formatter {
     public Pattern getUnformattedPattern() {
         return UNFORMATED;
     }
+
+	@Override
+	public int getNumberOfCheckDigits() {
+		return NUMBER_OF_CHECK_DIGITS;
+	}
+    
+	@Override
+	public int getNoCheckDigitsSize() {
+		return NO_CHECK_DIGITS_SIZE;
+	}
 }

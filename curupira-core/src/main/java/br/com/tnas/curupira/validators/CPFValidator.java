@@ -1,18 +1,15 @@
 package br.com.tnas.curupira.validators;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.format.CNPJFormatter;
 import br.com.tnas.curupira.format.CPFFormatter;
 import br.com.tnas.curupira.validation.error.CPFError;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.NullRule;
 import br.com.tnas.curupira.validators.rules.RepeatedDigitsRule;
 import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
@@ -121,29 +118,15 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
         return digito1 + digito2;
     }
 
-	@Override
-	protected Pattern getFormattedPattern() {
-		return CPFFormatter.FORMATED;
-	}
-
-	@Override
-	protected Pattern getUnformatedPattern() {
-		return CPFFormatter.UNFORMATED;
-	}
-	
-	@Override
-	protected int getNoCheckDigitsSize() {
-		return CPFFormatter.NO_CHECKDIGITS_SIZE;
-	}
-
     @Override
     protected List<ValidationRule> getValidationRules() {
         var formatter = new CPFFormatter();
         return List.of(
+        		new NullRule(CPFError.INVALID_DIGITS),
                 new FormattingRule(formatter, this.isFormatted, CPFError.INVALID_FORMAT),
-                new UnformattingRule(formatter, 11, "[0-9]*", CPFError.INVALID_DIGITS),
+                new UnformattingRule(formatter, CPFError.INVALID_DIGITS),
                 new RepeatedDigitsRule(formatter, this.isIgnoringRepeatedDigits, CPFError.REPEATED_DIGITS),
-                new CheckDigitsRule(formatter, 2, this::computeCheckDigits, CPFError.INVALID_CHECK_DIGITS)
+                new CheckDigitsRule(formatter, this::computeCheckDigits, CPFError.INVALID_CHECK_DIGITS)
         );
     }
 }

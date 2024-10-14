@@ -1,24 +1,20 @@
 package br.com.tnas.curupira.validators;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.format.RenavamFormatter;
 import br.com.tnas.curupira.format.TituloEleitoralFormatter;
 import br.com.tnas.curupira.type.Estado;
-import br.com.tnas.curupira.validation.error.RenavamError;
 import br.com.tnas.curupira.validation.error.TituloEleitoralError;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.ElectoralStateCodeRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.NullRule;
 import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
 
@@ -174,30 +170,16 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
 	}
 
 	@Override
-	protected Pattern getFormattedPattern() {
-		return TituloEleitoralFormatter.FORMATED;
-	}
-
-	@Override
-	protected Pattern getUnformatedPattern() {
-		return TituloEleitoralFormatter.UNFORMATED;
-	}
-	
-	@Override
-	protected int getNoCheckDigitsSize() {
-		return TituloEleitoralFormatter.NO_CHECKDIGITS_SIZE;
-	}
-
-	@Override
 	protected List<ValidationRule> getValidationRules() {
 
 		var formatter = new TituloEleitoralFormatter();
 
 		return List.of(
+				new NullRule(TituloEleitoralError.INVALID_DIGITS),
 				new FormattingRule(formatter, this.isFormatted, TituloEleitoralError.INVALID_FORMAT),
-				new UnformattingRule(formatter, 12, "[0-9]*", TituloEleitoralError.INVALID_DIGITS),
+				new UnformattingRule(formatter, TituloEleitoralError.INVALID_DIGITS),
 				new ElectoralStateCodeRule(formatter, TituloEleitoralError.INVALID_CODIGO_DE_ESTADO),
-				new CheckDigitsRule(formatter, 2, this::computeCheckDigits, TituloEleitoralError.INVALID_CHECK_DIGITS)
+				new CheckDigitsRule(formatter, this::computeCheckDigits, TituloEleitoralError.INVALID_CHECK_DIGITS)
 		);
 	}
 }

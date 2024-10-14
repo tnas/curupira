@@ -1,5 +1,7 @@
 package br.com.tnas.curupira.validators;
 
+import java.util.List;
+
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
@@ -7,11 +9,9 @@ import br.com.tnas.curupira.format.NITFormatter;
 import br.com.tnas.curupira.validation.error.NITError;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.NullRule;
 import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
-
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -70,21 +70,6 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
     protected String computeCheckDigits(String nitSemDigito) {
     	return new DigitoPara(nitSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
 	}
-    
-	@Override
-	protected Pattern getFormattedPattern() {
-		return NITFormatter.FORMATED;
-	}
-
-	@Override
-	protected Pattern getUnformatedPattern() {
-		return NITFormatter.UNFORMATED;
-	}
-	
-	@Override
-	protected int getNoCheckDigitsSize() {
-		return NITFormatter.NO_CHECKDIGITS_SIZE;
-	}
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
@@ -92,9 +77,10 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
 		var formatter = new NITFormatter();
 
 		return List.of(
+				new NullRule(NITError.INVALID_DIGITS),
 				new FormattingRule(formatter, this.isFormatted, NITError.INVALID_FORMAT),
-				new UnformattingRule(formatter, 11, "[0-9]*", NITError.INVALID_DIGITS),
-				new CheckDigitsRule(formatter, 1, this::computeCheckDigits, NITError.INVALID_CHECK_DIGITS)
+				new UnformattingRule(formatter, NITError.INVALID_DIGITS),
+				new CheckDigitsRule(formatter, this::computeCheckDigits, NITError.INVALID_CHECK_DIGITS)
 		);
 	}
 }

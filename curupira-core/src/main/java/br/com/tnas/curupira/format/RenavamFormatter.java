@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public class RenavamFormatter implements Formatter {
 
 	public static final int NO_CHECK_DIGITS_SIZE = 10;
+	public static final int NUMBER_OF_CHECK_DIGITS = 1;
     public static final Pattern FORMATTED = Pattern.compile("(\\d{2,4}).(\\d{6})-(\\d{1})");
     public static final Pattern UNFORMATTED = Pattern.compile("(\\d{2,4})(\\d{6})(\\d{1})");
 
@@ -54,4 +55,15 @@ public class RenavamFormatter implements Formatter {
     public void setFormatted(boolean formatted) {
         isFormatted = formatted;
     }
+
+	@Override
+	public int getNumberOfCheckDigits() {
+		return NUMBER_OF_CHECK_DIGITS;
+	}
+	
+	@Override
+	public int getNoCheckDigitsSize() {
+		return NO_CHECK_DIGITS_SIZE;
+	}
+    
 }

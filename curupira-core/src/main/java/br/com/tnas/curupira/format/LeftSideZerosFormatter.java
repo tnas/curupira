@@ -61,4 +61,9 @@ public class LeftSideZerosFormatter implements Formatter {
     public Pattern getUnformattedPattern() {
         return null;
     }
+    
+	@Override
+	public int getNoCheckDigitsSize() {
+		throw new UnsupportedOperationException();
+	}
 }

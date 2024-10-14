@@ -75,4 +75,8 @@ public class BaseFormatter implements Formatter {
         return this.unformatted;
     }
 
+	@Override
+	public int getNoCheckDigitsSize() {
+		throw new UnsupportedOperationException();
+	}
 }

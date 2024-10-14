@@ -1,13 +1,13 @@
 package br.com.tnas.curupira.validators;
 
+import java.util.List;
+
 import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
 import br.com.tnas.curupira.validation.error.AgenciaBancariaError;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.NullRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
-
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Representa um validador de agencia bancária do Banco do Brasil.
@@ -41,28 +41,14 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 	}
 
 	@Override
-	protected Pattern getFormattedPattern() {
-		return AgenciaBancariaFormatter.FORMATTED;
-	}
-
-	@Override
-	protected Pattern getUnformatedPattern() {
-		return AgenciaBancariaFormatter.UNFORMATTED;
-	}
-	
-	@Override
-	protected int getNoCheckDigitsSize() {
-		return AgenciaBancariaFormatter.NO_CHECK_DIGITS_SIZE;
-	}
-
-	@Override
 	protected List<ValidationRule> getValidationRules() {
 
 		var formatter = new AgenciaBancariaFormatter();
 
 		return List.of(
+				new NullRule(AgenciaBancariaError.INVALID_FORMAT),
 				new FormattingRule(formatter, this.isFormatted, AgenciaBancariaError.INVALID_FORMAT),
-				new CheckDigitsRule(formatter, 1, this::computeCheckDigits, AgenciaBancariaError.INVALID_CHECK_DIGIT)
+				new CheckDigitsRule(formatter, this::computeCheckDigits, AgenciaBancariaError.INVALID_CHECK_DIGIT)
 		);
 	}
 }

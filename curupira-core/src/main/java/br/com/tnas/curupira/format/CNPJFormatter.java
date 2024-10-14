@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public class CNPJFormatter implements Formatter {
 	
 	public static final int NO_CHECK_DIGITS_SIZE = 12;
+	public static final int NUMBER_OF_CHECK_DIGITS = 2;
 	public static final Pattern FORMATTED = Pattern.compile("(\\d{2})[.](\\d{3})[.](\\d{3})/(\\d{4})-(\\d{2})");
 	public static final Pattern UNFORMATTED = Pattern.compile("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})");
 	
@@ -43,4 +44,15 @@ public class CNPJFormatter implements Formatter {
 	public Pattern getUnformattedPattern() {
 		return UNFORMATTED;
 	}
+
+	@Override
+	public int getNumberOfCheckDigits() {
+		return NUMBER_OF_CHECK_DIGITS;
+	}
+	
+	@Override
+	public int getNoCheckDigitsSize() {
+		return NO_CHECK_DIGITS_SIZE;
+	}
+	
 }

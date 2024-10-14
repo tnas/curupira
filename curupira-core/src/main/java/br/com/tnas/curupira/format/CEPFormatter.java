@@ -42,4 +42,9 @@ public class CEPFormatter implements Formatter {
     public Pattern getUnformattedPattern() {
         return UNFORMATTED;
     }
+    
+	@Override
+	public int getNoCheckDigitsSize() {
+		throw new UnsupportedOperationException();
+	}
 }

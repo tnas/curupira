@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public class AgenciaBancariaFormatter implements Formatter {
 	
 	public static final int NO_CHECK_DIGITS_SIZE = 4;
+	public static final int NUMBER_OF_CHECK_DIGITS = 1;
 	public static final Pattern FORMATTED = Pattern.compile("(\\d+)\\-([\\dX])");
 	public static final Pattern UNFORMATTED = Pattern.compile("(\\d+)");
 	
@@ -40,4 +41,15 @@ public class AgenciaBancariaFormatter implements Formatter {
 	public Pattern getUnformattedPattern() {
 		return UNFORMATTED;
 	}
+	
+	@Override
+	public int getNoCheckDigitsSize() {
+		return NO_CHECK_DIGITS_SIZE;
+	}
+
+	@Override
+	public int getNumberOfCheckDigits() {
+		return NUMBER_OF_CHECK_DIGITS;
+	}
+	
 }

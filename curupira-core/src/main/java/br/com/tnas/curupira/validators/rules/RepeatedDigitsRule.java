@@ -1,24 +1,16 @@
 package br.com.tnas.curupira.validators.rules;
 
-import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
 import br.com.tnas.curupira.validators.InvalidValue;
 
-public class RepeatedDigitsRule implements ValidationRule {
+public class RepeatedDigitsRule extends ValidationRule {
 
-    private final Formatter formatter;
     private final boolean isIgnoringRepeatedDigits;
-    private final InvalidValue errorKey;
 
     public RepeatedDigitsRule(Formatter formatter, boolean isIgnoringRepeatedDigits, InvalidValue errorKey) {
-        this.formatter = formatter;
         this.isIgnoringRepeatedDigits = isIgnoringRepeatedDigits;
+        this.formatter = formatter;
         this.errorKey = errorKey;
-    }
-
-    @Override
-    public ValidationMessage getErrorMessage() {
-        return messageProducer.getMessage(this.errorKey);
     }
 
     @Override

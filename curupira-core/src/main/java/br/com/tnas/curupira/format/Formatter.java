@@ -63,6 +63,12 @@ public interface Formatter {
 	default String reformat(String value) {
 		return value;
 	}
+	
+	default int getNumberOfCheckDigits() {
+		return 0;
+	}
+	
+	int getNoCheckDigitsSize();
 
 	Pattern getFormattedPattern();
 

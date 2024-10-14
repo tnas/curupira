@@ -1,14 +1,11 @@
 package br.com.tnas.curupira.validators.rules;
 
-import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
 import br.com.tnas.curupira.validators.InvalidValue;
 
-public class FormattingRule implements ValidationRule {
+public class FormattingRule extends ValidationRule {
 
-    private final Formatter formatter;
     private final boolean isFormatted;
-    private final InvalidValue errorKey;
 
     public FormattingRule(Formatter formatter, boolean isFormatted, InvalidValue errorKey) {
         this.formatter = formatter;
@@ -16,10 +13,6 @@ public class FormattingRule implements ValidationRule {
         this.errorKey = errorKey;
     }
 
-    @Override
-    public ValidationMessage getErrorMessage() {
-        return messageProducer.getMessage(this.errorKey);
-    }
 
     @Override
     public boolean validate(String value) {

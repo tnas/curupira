@@ -1,5 +1,7 @@
 package br.com.tnas.curupira.validators;
 
+import java.util.List;
+
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
@@ -7,12 +9,10 @@ import br.com.tnas.curupira.format.CNPJFormatter;
 import br.com.tnas.curupira.validation.error.CNPJError;
 import br.com.tnas.curupira.validators.rules.CheckDigitsRule;
 import br.com.tnas.curupira.validators.rules.FormattingRule;
+import br.com.tnas.curupira.validators.rules.NullRule;
 import br.com.tnas.curupira.validators.rules.RepeatedDigitsRule;
 import br.com.tnas.curupira.validators.rules.UnformattingRule;
 import br.com.tnas.curupira.validators.rules.ValidationRule;
-
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Representa um validador de CNPJ.
@@ -92,28 +92,14 @@ public class CNPJValidator extends DocumentoValidator<CNPJFormatter> {
 	}
 
 	@Override
-	protected Pattern getFormattedPattern() {
-		return CNPJFormatter.FORMATTED;
-	}
-
-	@Override
-	protected Pattern getUnformatedPattern() {
-		return CNPJFormatter.UNFORMATTED;
-	}
-
-	@Override
-	protected int getNoCheckDigitsSize() {
-		return CNPJFormatter.NO_CHECK_DIGITS_SIZE;
-	}
-
-	@Override
 	protected List<ValidationRule> getValidationRules() {
 		var formatter = new CNPJFormatter();
 		return List.of(
+				new NullRule(CNPJError.INVALID_DIGITS),
 				new FormattingRule(formatter, this.isFormatted, CNPJError.INVALID_FORMAT),
-				new UnformattingRule(formatter, 14, "[0-9]*", CNPJError.INVALID_DIGITS),
+				new UnformattingRule(formatter, CNPJError.INVALID_DIGITS),
 				new RepeatedDigitsRule(formatter, this.isIgnoringRepeatedDigits, CNPJError.REPEATED_DIGITS),
-				new CheckDigitsRule(formatter, 2, this::computeCheckDigits, CNPJError.INVALID_CHECK_DIGITS)
+				new CheckDigitsRule(formatter, this::computeCheckDigits, CNPJError.INVALID_CHECK_DIGITS)
 		);
 	}
     
