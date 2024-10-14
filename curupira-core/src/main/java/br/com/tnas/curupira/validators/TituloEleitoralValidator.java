@@ -98,6 +98,7 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
      * @param isFormatted indica se o número está formatado.
      */
     public TituloEleitoralValidator(boolean isFormatted) {
+    	this();
     	this.messageProducer = new SimpleMessageProducer();
         this.isFormatted = isFormatted;
     }
@@ -112,8 +113,8 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
      * @param isFormatted indica se o número está formatado.
      */
     public TituloEleitoralValidator(MessageProducer messageProducer,boolean isFormatted) {
+    	this(isFormatted);
     	this.messageProducer = messageProducer;
-        this.isFormatted = isFormatted;
     }
     
     public TituloEleitoralValidator(MessageProducer messageProducer) {
@@ -171,9 +172,6 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
-
-		var formatter = new TituloEleitoralFormatter();
-
 		return List.of(
 				new NullRule(TituloEleitoralError.INVALID_DIGITS),
 				new FormattingRule(formatter, this.isFormatted, TituloEleitoralError.INVALID_FORMAT),

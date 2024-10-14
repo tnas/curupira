@@ -120,7 +120,6 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
 
     @Override
     protected List<ValidationRule> getValidationRules() {
-        var formatter = new CPFFormatter();
         return List.of(
         		new NullRule(CPFError.INVALID_DIGITS),
                 new FormattingRule(formatter, this.isFormatted, CPFError.INVALID_FORMAT),

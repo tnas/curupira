@@ -2,7 +2,6 @@ package br.com.tnas.curupira.validators;
 
 import java.util.List;
 
-import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.RenavamFormatter;
@@ -69,16 +68,8 @@ public class RenavamValidator extends DocumentoValidator<RenavamFormatter> {
     }
 
 	@Override
-	protected String computeCheckDigits(String renavamSemDigito) {
-    	return new DigitoPara(renavamSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
-	}
-
-	@Override
 	protected List<ValidationRule> getValidationRules() {
-
-		var formatter = new RenavamFormatter();
-		formatter.setFormatted(this.isFormatted);
-
+		this.formatter.setFormatted(this.isFormatted);
 		return List.of(
 				new NullRule(RenavamError.INVALID_DIGITS),
 				new FormattingRule(formatter, this.isFormatted, RenavamError.INVALID_FORMAT),

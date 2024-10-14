@@ -18,8 +18,7 @@ import br.com.tnas.curupira.ValidationMessage;
  * 
  * @author Fabio Kung
  * @author Leonardo Bessa
- * @param <T>
- *            tipo de objeto a ser validado
+ * @param <T> tipo de objeto a ser validado
  */
 public interface Validator<T> {
 	
@@ -29,13 +28,13 @@ public interface Validator<T> {
      * @throws InvalidStateException se o parametro não for válido,
      *         contendo a lista de ValidationMessage
      */
-    public abstract void assertValid(T object);
+	void assertValid(T object);
 
     /**
      * @param object Objeto a ser validado.
      * @return as mensagens de de validação relativas ao paremetro object
      */
-    public abstract List<ValidationMessage> invalidMessagesFor(T object);
+    List<ValidationMessage> invalidMessagesFor(T object);
 
     /**
      * @param object objeto que se deseja avaliar
@@ -47,5 +46,5 @@ public interface Validator<T> {
     /**
      * @return um objeto aleatório válido de acordo com as regras de validação deste validador
      */
-    public abstract T generateRandomValid();
+    T generateRandomValid();
 }

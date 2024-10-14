@@ -42,9 +42,6 @@ public class AgenciaBancariaValidator extends DocumentoValidator<AgenciaBancaria
 
 	@Override
 	protected List<ValidationRule> getValidationRules() {
-
-		var formatter = new AgenciaBancariaFormatter();
-
 		return List.of(
 				new NullRule(AgenciaBancariaError.INVALID_FORMAT),
 				new FormattingRule(formatter, this.isFormatted, AgenciaBancariaError.INVALID_FORMAT),

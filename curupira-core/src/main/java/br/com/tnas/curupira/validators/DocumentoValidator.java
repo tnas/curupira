@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import br.com.tnas.curupira.DigitoGenerator;
+import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
@@ -21,9 +22,23 @@ public abstract class DocumentoValidator<F extends Formatter> implements Validat
 		this.messageProducer = new SimpleMessageProducer();
 	}
 
-	protected abstract String computeCheckDigits(String valueWithoutDigit);
-
 	protected abstract List<ValidationRule> getValidationRules();
+	
+	protected String computeCheckDigits(String valueWithoutDigit) {
+		
+		var checkDigits = new StringBuilder();
+		
+		DigitoPara digitoPara = new DigitoPara(valueWithoutDigit);
+		digitoPara.complementarAoModulo().trocandoPorSeEncontrar("0", 10, 11).mod(11);
+		
+		while (checkDigits.toString().length() < this.formatter.getNumberOfCheckDigits()) {
+			var digit = digitoPara.calcula();
+			checkDigits.append(digit);
+			digitoPara.addDigito(digit);
+		} 
+		
+		return checkDigits.toString();
+	}
 
 	@Override
 	public List<ValidationMessage> invalidMessagesFor(String value) {

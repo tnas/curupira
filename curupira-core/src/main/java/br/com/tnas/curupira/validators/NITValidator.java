@@ -2,7 +2,6 @@ package br.com.tnas.curupira.validators;
 
 import java.util.List;
 
-import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.NITFormatter;
@@ -66,16 +65,8 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
         this.isFormatted = isFormatted;
     }
 
-    @Override
-    protected String computeCheckDigits(String nitSemDigito) {
-    	return new DigitoPara(nitSemDigito).complementarAoModulo().trocandoPorSeEncontrar("0",10,11).mod(11).calcula();
-	}
-
 	@Override
 	protected List<ValidationRule> getValidationRules() {
-
-		var formatter = new NITFormatter();
-
 		return List.of(
 				new NullRule(NITError.INVALID_DIGITS),
 				new FormattingRule(formatter, this.isFormatted, NITError.INVALID_FORMAT),

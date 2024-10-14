@@ -18,12 +18,12 @@ public class AcceptAnyValidator implements Validator<String> {
     public static enum Documento {
         CPF {
             public Validator<String> getValidator(MessageProducer messageProducer, boolean isFormatted) {
-                return new CPFValidator(messageProducer, isFormatted);
+                return new CPFValidator(isFormatted);
             }
         },
         CNPJ {
             public Validator<String> getValidator(MessageProducer messageProducer, boolean isFormatted) {
-                return new CNPJValidator(messageProducer, isFormatted);
+                return new CNPJValidator(isFormatted);
             }
         };
 
