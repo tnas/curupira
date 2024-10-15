@@ -1,12 +1,80 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>br.com.tnas</groupId>
-  <artifactId>curupira</artifactId>
-  <version>${revision}</version>
-  <packaging>pom</packaging>
-  <name>Curupira</name>
-  <description>Java toolkit for Brazilian developers</description>
-  <modules>
-  	<module>curupira-core</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>br.com.tnas</groupId>
+	<artifactId>curupira</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+	<name>Curupira</name>
+	<description>
+		Java toolkit for Brazilian developers. It offers a set of validators and
+		formatters for the main documents used in Brazilian software.
+		Curupira is a fork of the caelum-stella project (https://github.com/caelum/caelum-stella)
+	</description>
+	<url></url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<hamcrest.version>3.0</hamcrest.version>
+		<jmock.version>2.13.1</jmock.version>
+		<mockito.version>5.12.0</mockito.version>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>tnas</id>
+			<name>Thiago Nascimento</name>
+			<email>nascimenthiago@gmail.com</email>
+			<organizationUrl>http://nascimentothiago.rf.gd/</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/tnas/curupira.git</connection>
+		<developerConnection>
+			scm:git:ssh://github.com:tnas/curupira.git</developerConnection>
+		<url>http://github.com/tnas/curupira/tree/master</url>
+	</scm>
+
+	<modules>
+		<module>curupira-core</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>5.11.2</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.13.0</version>
+					<configuration>
+						<source>21</source>
+						<target>21</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

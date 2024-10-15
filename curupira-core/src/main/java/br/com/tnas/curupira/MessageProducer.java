@@ -15,6 +15,7 @@ import br.com.tnas.curupira.validation.error.InvalidValue;
  * @author Leonardo Bessa
  */
 public interface MessageProducer {
+	
     /**
      * @param invalidValue
      *            valor inválido ao qual se procura a mensagem associada.

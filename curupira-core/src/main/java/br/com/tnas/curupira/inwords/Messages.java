@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 final class Messages {
 	private static final String BUNDLE_NAME = "br.com.tnas.curupira.inwords.messages";
 
-	static final Locale LOCALE_PT_BR = new Locale("pt", "BR");
+	static final Locale LOCALE_PT_BR = Locale.of("pt", "BR");
 
 	private static final Map<String, ResourceBundle> RESOURCE_BUNDLES;
 
