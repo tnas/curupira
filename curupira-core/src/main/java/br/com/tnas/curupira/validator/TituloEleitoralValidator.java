@@ -6,11 +6,11 @@ import java.util.Random;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.TituloEleitoralFormatter;
+import br.com.tnas.curupira.message.MessageProducer;
+import br.com.tnas.curupira.message.SimpleMessageProducer;
 import br.com.tnas.curupira.type.Estado;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.validator.error.ValidationError;
 import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
 import br.com.tnas.curupira.validator.rule.ElectoralStateCodeRule;
 import br.com.tnas.curupira.validator.rule.FormattingRule;

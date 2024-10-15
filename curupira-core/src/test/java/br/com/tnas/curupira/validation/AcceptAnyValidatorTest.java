@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.validation.error.InvalidStateException;
 import br.com.tnas.curupira.validator.AcceptAnyValidator;
 import br.com.tnas.curupira.validator.CNPJValidator;
 import br.com.tnas.curupira.validator.CPFValidator;
 import br.com.tnas.curupira.validator.Validator;
 import br.com.tnas.curupira.validator.AcceptAnyValidator.Documento;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
 
 /**
  * Created by IntelliJ IDEA. User: leonardobessa Date: Jan 26, 2009 Time:

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.InvalidStateException;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.message.MessageProducer;
+import br.com.tnas.curupira.message.ValidationMessage;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
+import br.com.tnas.curupira.validator.error.ValidationError;
 
 /**
  * Validador para aceitar cadeias de tamanho pré-definido. A cadeia verificada

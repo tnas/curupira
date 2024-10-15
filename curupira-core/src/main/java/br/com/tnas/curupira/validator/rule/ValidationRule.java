@@ -1,10 +1,10 @@
 package br.com.tnas.curupira.validator.rule;
 
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.SimpleMessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validation.error.InvalidValue;
+import br.com.tnas.curupira.message.MessageProducer;
+import br.com.tnas.curupira.message.SimpleMessageProducer;
+import br.com.tnas.curupira.message.ValidationMessage;
+import br.com.tnas.curupira.validator.error.InvalidValue;
 
 public abstract class ValidationRule {
 

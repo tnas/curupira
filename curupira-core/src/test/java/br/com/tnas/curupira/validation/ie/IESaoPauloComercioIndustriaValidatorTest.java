@@ -7,12 +7,13 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.validation.error.InvalidStateException;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.message.MessageProducer;
 import br.com.tnas.curupira.validator.Validator;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
+import br.com.tnas.curupira.validator.error.ValidationError;
+import br.com.tnas.curupira.validator.ie.IESaoPauloComercioIndustriaValidator;
 
-public class IESaoPauloComercioIndustriaValidatorTest extends IEValidatorTest {
+class IESaoPauloComercioIndustriaValidatorTest extends IEValidatorTest {
 
 	public IESaoPauloComercioIndustriaValidatorTest() {
 		super(wrongCheckDigitString, validUnformattedString, validString, validValues);
@@ -31,7 +32,7 @@ public class IESaoPauloComercioIndustriaValidatorTest extends IEValidatorTest {
 	}
 
 	@Test
-	public void shouldNotValidateIEsWithSecondCheckDigitWrong() {
+	void shouldNotValidateIEsWithSecondCheckDigitWrong() {
 		Validator<String> validator = getValidator(messageProducer, false);
 
 		try {

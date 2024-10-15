@@ -2,7 +2,7 @@ package br.com.tnas.curupira.validator.rule;
 
 import java.util.Objects;
 
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.validator.error.ValidationError;
 
 public class NullRule extends ValidationRule {
 	

@@ -1,7 +1,8 @@
 package br.com.tnas.curupira.validation.ie;
 
-import br.com.tnas.curupira.MessageProducer;
+import br.com.tnas.curupira.message.MessageProducer;
 import br.com.tnas.curupira.validator.Validator;
+import br.com.tnas.curupira.validator.ie.IESergipeValidator;
 
 public class IESergipeValidatorTest extends IEValidatorTest {
 

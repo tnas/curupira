@@ -6,9 +6,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.message.MessageProducer;
+import br.com.tnas.curupira.message.ValidationMessage;
 import br.com.tnas.curupira.validator.Validator;
+import br.com.tnas.curupira.validator.ie.IETocantinsValidator;
 
 public class IETocantinsValidatorTest extends IEValidatorTest {
 

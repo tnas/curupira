@@ -3,7 +3,7 @@ package br.com.tnas.curupira.validator;
 import java.util.List;
 
 import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.validator.error.ValidationError;
 import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
 import br.com.tnas.curupira.validator.rule.FormattingRule;
 import br.com.tnas.curupira.validator.rule.NullRule;

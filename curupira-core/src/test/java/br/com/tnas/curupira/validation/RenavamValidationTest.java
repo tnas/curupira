@@ -10,9 +10,9 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.InvalidStateException;
+import br.com.tnas.curupira.message.ValidationMessage;
 import br.com.tnas.curupira.validator.RenavamValidator;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
 
 public class RenavamValidationTest {
 

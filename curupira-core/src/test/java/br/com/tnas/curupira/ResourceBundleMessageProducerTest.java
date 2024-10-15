@@ -11,7 +11,9 @@ import java.util.ResourceBundle;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.validation.error.InvalidValue;
+import br.com.tnas.curupira.message.ResourceBundleMessageProducer;
+import br.com.tnas.curupira.message.ValidationMessage;
+import br.com.tnas.curupira.validator.error.InvalidValue;
 
 /**
  * @author Fabio Kung

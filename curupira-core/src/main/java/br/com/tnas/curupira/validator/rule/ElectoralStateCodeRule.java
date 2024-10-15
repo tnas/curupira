@@ -1,7 +1,7 @@
 package br.com.tnas.curupira.validator.rule;
 
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validation.error.InvalidValue;
+import br.com.tnas.curupira.validator.error.InvalidValue;
 
 public class ElectoralStateCodeRule extends ValidationRule {
 

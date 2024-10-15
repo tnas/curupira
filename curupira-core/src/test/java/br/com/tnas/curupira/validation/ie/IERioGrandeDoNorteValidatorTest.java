@@ -7,10 +7,11 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.validation.error.InvalidStateException;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.message.MessageProducer;
 import br.com.tnas.curupira.validator.Validator;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
+import br.com.tnas.curupira.validator.error.ValidationError;
+import br.com.tnas.curupira.validator.ie.IERioGrandeDoNorteValidator;
 
 public class IERioGrandeDoNorteValidatorTest extends IEValidatorTest {
 

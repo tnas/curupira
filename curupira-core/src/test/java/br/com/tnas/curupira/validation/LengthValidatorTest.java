@@ -9,12 +9,12 @@ import org.jmock.Mockery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.SimpleValidationMessage;
-import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.InvalidStateException;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.message.MessageProducer;
+import br.com.tnas.curupira.message.SimpleValidationMessage;
+import br.com.tnas.curupira.message.ValidationMessage;
 import br.com.tnas.curupira.validator.LengthValidator;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
+import br.com.tnas.curupira.validator.error.ValidationError;
 
 public class LengthValidatorTest {
 

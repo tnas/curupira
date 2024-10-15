@@ -6,10 +6,10 @@ import java.util.Objects;
 
 import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validation.error.InvalidStateException;
+import br.com.tnas.curupira.message.MessageProducer;
+import br.com.tnas.curupira.message.ValidationMessage;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
 import br.com.tnas.curupira.validator.rule.ValidationRule;
 
 public abstract class DocumentoValidator<F extends Formatter> implements Validator<String> {

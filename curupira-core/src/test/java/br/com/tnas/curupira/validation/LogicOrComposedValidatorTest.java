@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.MessageProducer;
+import br.com.tnas.curupira.message.MessageProducer;
 import br.com.tnas.curupira.validator.CNPJValidator;
 import br.com.tnas.curupira.validator.CPFValidator;
 import br.com.tnas.curupira.validator.LogicOrComposedValidator;

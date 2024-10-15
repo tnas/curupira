@@ -11,11 +11,11 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.InvalidStateException;
-import br.com.tnas.curupira.validation.error.InvalidValue;
+import br.com.tnas.curupira.message.MessageProducer;
+import br.com.tnas.curupira.message.ValidationMessage;
 import br.com.tnas.curupira.validator.BaseValidator;
+import br.com.tnas.curupira.validator.error.InvalidStateException;
+import br.com.tnas.curupira.validator.error.InvalidValue;
 
 public class BaseValidatorTest {
 
