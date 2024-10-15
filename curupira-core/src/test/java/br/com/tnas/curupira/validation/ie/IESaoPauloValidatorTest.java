@@ -9,7 +9,7 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.validation.error.IEError;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.InvalidStateException;
 import br.com.tnas.curupira.validator.Validator;
 
@@ -76,7 +76,7 @@ public class IESaoPauloValidatorTest {
 				assertTrue(e.getInvalidMessages().size() == 1);
 			}
 
-			verify(messageProducer, times(1)).getMessage(IEError.INVALID_FORMAT);
+			verify(messageProducer, times(1)).getMessage(ValidationError.IE$INVALID_FORMAT);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class IESaoPauloValidatorTest {
 				assertTrue(e.getInvalidMessages().size() == 1);
 			}
 
-			verify(messageProducer, times(1)).getMessage(IEError.INVALID_FORMAT);
+			verify(messageProducer, times(1)).getMessage(ValidationError.IE$INVALID_FORMAT);
 		}
 	}
 }

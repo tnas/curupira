@@ -23,5 +23,9 @@ public enum ValidationError implements InvalidValue {
 	TituloEleitoral$INVALID_CHECK_DIGITS,
 	TituloEleitoral$INVALID_STATE_CODE,
 	AgenciaBancoDoBrasil$INVALID_FORMAT,
-	AgenciaBancoDoBrasil$INVALID_CHECK_DIGITS
+	AgenciaBancoDoBrasil$INVALID_CHECK_DIGITS,
+	IE$INVALID_CHECK_DIGITS, 
+	IE$INVALID_DIGITS, 
+	IE$INVALID_FORMAT, 
+	IE$UNDEFINED_STATE
 }

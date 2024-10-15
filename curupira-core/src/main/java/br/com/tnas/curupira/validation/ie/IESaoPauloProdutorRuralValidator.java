@@ -8,8 +8,8 @@ import br.com.tnas.curupira.DigitoGenerator;
 import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.IEError;
 import br.com.tnas.curupira.validation.error.InvalidValue;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.BaseValidator;
 
 class IESaoPauloProdutorRuralValidator extends AbstractIEValidator {
@@ -32,7 +32,7 @@ class IESaoPauloProdutorRuralValidator extends AbstractIEValidator {
 			String unformatedIE = checkForCorrectFormat(ie, errors);
 			if (errors.isEmpty()) {
 				if (!hasValidCheckDigits(unformatedIE)) {
-					errors.add(IEError.INVALID_CHECK_DIGITS);
+					errors.add(ValidationError.IE$INVALID_CHECK_DIGITS);
 				}
 			}
 		}
@@ -43,12 +43,12 @@ class IESaoPauloProdutorRuralValidator extends AbstractIEValidator {
 		String unformatedIE = null;
 		if (isFormatted) {
 			if (!(FORMATED.matcher(ie).matches())) {
-				errors.add(IEError.INVALID_FORMAT);
+				errors.add(ValidationError.IE$INVALID_FORMAT);
 			}
 			unformatedIE = ie.replaceAll("\\D", "");
 		} else {
 			if (!UNFORMATED.matcher(ie).matches()) {
-				errors.add(IEError.INVALID_DIGITS);
+				errors.add(ValidationError.IE$INVALID_DIGITS);
 			}
 			unformatedIE = ie.replaceAll("\\D", "");
 		}

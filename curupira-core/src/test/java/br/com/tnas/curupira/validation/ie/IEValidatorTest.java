@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.IEError;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.InvalidStateException;
 import br.com.tnas.curupira.validator.Validator;
 
@@ -63,7 +63,7 @@ public abstract class IEValidatorTest {
 			assertEquals(1, e.getInvalidMessages().size());
 		}
 
-		verify(messageProducer, times(1)).getMessage(IEError.INVALID_DIGITS);
+		verify(messageProducer, times(1)).getMessage(ValidationError.IE$INVALID_DIGITS);
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public abstract class IEValidatorTest {
 			assertEquals(1, e.getInvalidMessages().size());
 		}
 
-		verify(messageProducer, times(1)).getMessage(IEError.INVALID_DIGITS);
+		verify(messageProducer, times(1)).getMessage(ValidationError.IE$INVALID_DIGITS);
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public abstract class IEValidatorTest {
 		} catch (InvalidStateException e) {
 			assertEquals(1, e.getInvalidMessages().size());
 		}
-		verify(messageProducer, times(1)).getMessage(IEError.INVALID_DIGITS);
+		verify(messageProducer, times(1)).getMessage(ValidationError.IE$INVALID_DIGITS);
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public abstract class IEValidatorTest {
 			assertEquals(1, e.getInvalidMessages().size());
 		}
 
-		verify(messageProducer, times(1)).getMessage(IEError.INVALID_CHECK_DIGITS);
+		verify(messageProducer, times(1)).getMessage(ValidationError.IE$INVALID_CHECK_DIGITS);
 	}
 
 	@Test
@@ -123,7 +123,7 @@ public abstract class IEValidatorTest {
 			assertTrue(errors.isEmpty());
 		}
 
-		verify(messageProducer, never()).getMessage(any(IEError.class));
+		verify(messageProducer, never()).getMessage(any(ValidationError.class));
 
 	}
 
@@ -142,7 +142,7 @@ public abstract class IEValidatorTest {
 			assertTrue(errors.isEmpty());
 		}
 
-		verify(messageProducer, never()).getMessage(any(IEError.class));
+		verify(messageProducer, never()).getMessage(any(ValidationError.class));
 	}
 
 	@Test
@@ -158,7 +158,7 @@ public abstract class IEValidatorTest {
 		errors = validator.invalidMessagesFor(value);
 		assertTrue(errors.isEmpty());
 
-		verify(messageProducer, never()).getMessage(any(IEError.class));
+		verify(messageProducer, never()).getMessage(any(ValidationError.class));
 	}
 
 	@Test
@@ -179,7 +179,7 @@ public abstract class IEValidatorTest {
 			assertEquals(1, e.getInvalidMessages().size());
 		}
 
-		verify(messageProducer, times(1)).getMessage(IEError.INVALID_FORMAT);
+		verify(messageProducer, times(1)).getMessage(ValidationError.IE$INVALID_FORMAT);
 	}
 
     @Test

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.validation.error.IEError;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.InvalidStateException;
 import br.com.tnas.curupira.validator.Validator;
 
@@ -53,7 +53,7 @@ public class IEMatoGrossoValidatorTest extends IEValidatorTest {
 		} catch (InvalidStateException e) {
 			assertTrue(e.getInvalidMessages().size() == 1);
 		}
-		Mockito.verify(messageProducer, Mockito.times(1)).getMessage(IEError.INVALID_DIGITS);
+		Mockito.verify(messageProducer, Mockito.times(1)).getMessage(ValidationError.IE$INVALID_DIGITS);
 	}
 
 }
