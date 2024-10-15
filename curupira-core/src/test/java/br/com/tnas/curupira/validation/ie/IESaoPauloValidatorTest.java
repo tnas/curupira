@@ -9,8 +9,8 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 import br.com.tnas.curupira.MessageProducer;
+import br.com.tnas.curupira.validation.error.InvalidStateException;
 import br.com.tnas.curupira.validation.error.ValidationError;
-import br.com.tnas.curupira.validator.InvalidStateException;
 import br.com.tnas.curupira.validator.Validator;
 
 

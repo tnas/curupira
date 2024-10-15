@@ -17,7 +17,7 @@ public class SimpleMessageProducerTest {
     public void testGetMessage() {
         SimpleMessageProducer messageProducer = new SimpleMessageProducer();
         ValidationMessage message = messageProducer.getMessage(DocumentoError.INVALID_CHECK_DIGITS);
-        assertEquals("DocumentoError : INVALID CHECK DIGITS", message.getMessage());
+        assertEquals("INVALID CHECK DIGITS", message.getMessage());
     }
 
 }

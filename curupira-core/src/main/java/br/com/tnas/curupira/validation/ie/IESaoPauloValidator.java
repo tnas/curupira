@@ -33,9 +33,10 @@ public class IESaoPauloValidator implements Validator<String> {
 		this(new SimpleMessageProducer(), isFormatted);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public IESaoPauloValidator(MessageProducer messageProducer, boolean isFormatted) {
-		Class[] validatorClasses = { IESaoPauloComercioIndustriaValidator.class,
+		Class[] validatorClasses = { 
+				IESaoPauloComercioIndustriaValidator.class,
 				IESaoPauloProdutorRuralValidator.class };
 		this.baseValidator = new LogicOrComposedValidator<String>(messageProducer, isFormatted, validatorClasses);
 		this.baseValidator.setInvalidFormat(ValidationError.IE$INVALID_FORMAT);

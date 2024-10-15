@@ -58,7 +58,6 @@ public class BaseFormatter implements Formatter {
     }
 
     public BaseFormatter(Pattern formatted, String formattedReplacement, Pattern unformatted, String unformattedReplacement) {
-        super();
         this.formatted = formatted;
         this.formattedReplacement = formattedReplacement;
         this.unformatted = unformatted;

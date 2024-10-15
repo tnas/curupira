@@ -8,8 +8,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 
 import br.com.tnas.curupira.MessageProducer;
+import br.com.tnas.curupira.validation.error.InvalidStateException;
 import br.com.tnas.curupira.validation.error.ValidationError;
-import br.com.tnas.curupira.validator.InvalidStateException;
 import br.com.tnas.curupira.validator.Validator;
 
 public class IEBahiaValidatorTest extends IEValidatorTest {

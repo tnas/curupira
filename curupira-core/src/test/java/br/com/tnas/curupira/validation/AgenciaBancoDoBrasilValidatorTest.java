@@ -6,18 +6,18 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.tnas.curupira.BasicMessageProducer;
 import br.com.tnas.curupira.MessageProducer;
+import br.com.tnas.curupira.SimpleMessageProducer;
+import br.com.tnas.curupira.validation.error.InvalidStateException;
 import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.AgenciaBancoDoBrasilValidator;
-import br.com.tnas.curupira.validator.InvalidStateException;
 
 /**
  * @author Thiago Nascimento
  */
 class AgenciaBancoDoBrasilValidatorTest {
 
-	private MessageProducer messageProducer = new BasicMessageProducer();
+	private MessageProducer messageProducer = new SimpleMessageProducer();
 	
 	@Test
 	void shouldAcceptEligibleAgenciasComDV() {

@@ -3,6 +3,7 @@ package br.com.tnas.curupira.validator;
 import java.util.List;
 
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.validation.error.InvalidStateException;
 
 /**
  * <p>

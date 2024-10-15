@@ -8,35 +8,30 @@ import br.com.tnas.curupira.validation.error.InvalidValue;
  * mensagens são geradas atraves dos nomes das anotoções que representam os
  * erros.
  * </p>
- * <p>
- * A messagem de erro é composta do seguinte modo:
- * </p>
- * <code>
- * String message = (simpleName + "." + errorName).replaceFirst("[.]", " : ").replaceAll("_", " "); 
- * </code> 
  * 
  * <p>
  * Veja o exemplo:
  * </p>
  * <p>
- * A mesagem do erro representado por CPFError.INVALID_DIGITS é : <br>
+ * A mesagem do erro representado por {@link ValidationError#}.CPF$INVALID_DIGITS é : <br>
  * CPFError : INVALID DIGITS .
  * </p>
  * 
  * @author Leonardo Bessa
+ * @author Thiago Nascimento
  * 
  */
 public class SimpleMessageProducer implements MessageProducer {
 
-    /**
-     * @see MessageProducer#getMessage(InvalidValue)
-     */
-    public ValidationMessage getMessage(InvalidValue error) {
-        String simpleName = error.getClass().getSimpleName();
-        String errorName = error.name();
-        String key = simpleName + "." + errorName;
-        String message;
-        message = key.replaceFirst("[.]", " : ").replaceAll("_", " ");
-        return new SimpleValidationMessage(message);
-    }
+	private static final String MESSAGE_FORMAT = "%sError : %s";
+	
+	@Override
+	public ValidationMessage getMessage(InvalidValue error) {
+		
+		var messageComponents = error.name().split("\\$");
+		
+		return messageComponents.length == 1 ? new SimpleValidationMessage(messageComponents[0].replaceAll("_", " ")) :
+				new SimpleValidationMessage(String.format(MESSAGE_FORMAT, messageComponents[0], 
+						messageComponents[1].replaceAll("_", " ")));
+	}
 }

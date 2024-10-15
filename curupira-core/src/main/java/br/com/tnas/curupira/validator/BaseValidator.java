@@ -2,10 +2,10 @@ package br.com.tnas.curupira.validator;
 
 import java.util.List;
 
-import br.com.tnas.curupira.BasicMessageProducer;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.validation.error.InvalidStateException;
 import br.com.tnas.curupira.validation.error.InvalidValue;
 
 /**
@@ -30,7 +30,7 @@ public class BaseValidator {
      * Utiliza um {@linkplain SimpleMessageProducer}.
      */
     public BaseValidator() {
-        this.messageProducer = new BasicMessageProducer();
+        this.messageProducer = new SimpleMessageProducer();
     }
 
     /**

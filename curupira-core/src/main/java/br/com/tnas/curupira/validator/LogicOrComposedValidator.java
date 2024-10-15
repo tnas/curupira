@@ -1,56 +1,51 @@
 package br.com.tnas.curupira.validator;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
+import br.com.tnas.curupira.validation.error.InvalidStateException;
 import br.com.tnas.curupira.validation.error.InvalidValue;
+import br.com.tnas.curupira.validation.error.ValidationError;
 
 public class LogicOrComposedValidator<T> implements Validator<T> {
 
     public Validator<T>[] validators;
 
     public MessageProducer messageProducer;
+    
+    public InvalidValue invalidValue;
 
-    public InvalidValue invalidFormat = new InvalidValue() {
-
-        public String name() {
-            return "INVALID_FORMAT";
-        }
-    };
-
+    public LogicOrComposedValidator() {
+    	this.invalidValue = ValidationError.INVALID_FORMAT;
+    }
+    
     @SuppressWarnings("unchecked")
     public LogicOrComposedValidator(MessageProducer messageProducer, boolean isFormatted,
             Class<? extends Validator<T>>... validatorClasses) {
+    	
         if (validatorClasses.length == 0) {
             throw new IllegalArgumentException(
                     "Ao menos um validador deve ser passado como argumento na construção");
         }
+        
         this.messageProducer = messageProducer;
         this.validators = new Validator[validatorClasses.length];
         int i = 0;
-        for (Class<? extends Validator<T>> clazz : validatorClasses) {
+        
+        for (var clazz : validatorClasses) {
+        	
             Constructor<? extends Validator<T>> constructor;
+            
             try {
                 constructor = clazz.getConstructor(MessageProducer.class, boolean.class);
                 constructor.setAccessible(true);
                 validators[i++] = constructor.newInstance(messageProducer, isFormatted);
-            } catch (SecurityException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            } 
         }
     }
 
@@ -72,7 +67,7 @@ public class LogicOrComposedValidator<T> implements Validator<T> {
             if (lastException != null) {
                 throw lastException;
             } else {
-                throw new InvalidStateException(messageProducer.getMessage(invalidFormat));
+                throw new InvalidStateException(messageProducer.getMessage(this.invalidValue));
             }
         }
     }
@@ -90,7 +85,7 @@ public class LogicOrComposedValidator<T> implements Validator<T> {
         }
         if (result == null) {
             result = new ArrayList<ValidationMessage>();
-            result.add(messageProducer.getMessage(invalidFormat));
+            result.add(messageProducer.getMessage(this.invalidValue));
         }
         return result;
     }
@@ -106,8 +101,8 @@ public class LogicOrComposedValidator<T> implements Validator<T> {
         return result;
     }
 
-    public void setInvalidFormat(InvalidValue invalidFormat) {
-        this.invalidFormat = invalidFormat;
+    public void setInvalidFormat(InvalidValue invalidValue) {
+        this.invalidValue = invalidValue;
     }
 
     /**

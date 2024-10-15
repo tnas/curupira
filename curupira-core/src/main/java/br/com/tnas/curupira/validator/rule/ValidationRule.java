@@ -1,7 +1,7 @@
 package br.com.tnas.curupira.validator.rule;
 
-import br.com.tnas.curupira.BasicMessageProducer;
 import br.com.tnas.curupira.MessageProducer;
+import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
 import br.com.tnas.curupira.validation.error.InvalidValue;
@@ -15,7 +15,7 @@ public abstract class ValidationRule {
 
     protected ValidationRule(InvalidValue invalidValue) {
     	this.invalidValue = invalidValue;
-    	this.messageProducer = new BasicMessageProducer();
+    	this.messageProducer = new SimpleMessageProducer();
     }
     
     protected ValidationRule(Formatter formatter, InvalidValue invalidValue) {

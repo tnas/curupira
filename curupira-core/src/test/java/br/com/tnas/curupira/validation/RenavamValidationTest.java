@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validator.InvalidStateException;
+import br.com.tnas.curupira.validation.error.InvalidStateException;
 import br.com.tnas.curupira.validator.RenavamValidator;
 
 public class RenavamValidationTest {

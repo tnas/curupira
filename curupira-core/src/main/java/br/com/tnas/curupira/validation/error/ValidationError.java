@@ -3,6 +3,7 @@ package br.com.tnas.curupira.validation.error;
 public enum ValidationError implements InvalidValue {
 	
 	INVALID_DIGITS,
+	INVALID_FORMAT,
 	Length$INVALID_LENGTH,
 	CNPJ$INVALID_FORMAT,
 	CNPJ$INVALID_DIGITS, 

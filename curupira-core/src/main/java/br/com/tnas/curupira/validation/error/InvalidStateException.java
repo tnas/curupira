@@ -1,4 +1,4 @@
-package br.com.tnas.curupira.validator;
+package br.com.tnas.curupira.validation.error;
 
 import java.util.Arrays;
 import java.util.List;
