@@ -3,7 +3,7 @@ package br.com.tnas.curupira.validator;
 import java.util.List;
 
 import br.com.tnas.curupira.format.AgenciaBancariaFormatter;
-import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
 import br.com.tnas.curupira.validator.rule.FormattingRule;
 import br.com.tnas.curupira.validator.rule.NullRule;
@@ -44,8 +44,8 @@ public class AgenciaBancoDoBrasilValidator extends DocumentoValidator<AgenciaBan
 	protected List<ValidationRule> getValidationRules() {
 		return List.of(
 				new NullRule(),
-				new FormattingRule(formatter, Validatable.AgenciaBancoDoBrasil, this.isFormatted),
-				new CheckDigitsRule(formatter, Validatable.AgenciaBancoDoBrasil, this::computeCheckDigits)
+				new FormattingRule(formatter, ValidationError.AgenciaBancoDoBrasil$INVALID_FORMAT, this.isFormatted),
+				new CheckDigitsRule(formatter, ValidationError.AgenciaBancoDoBrasil$INVALID_CHECK_DIGITS, this::computeCheckDigits)
 		);
 	}
 }

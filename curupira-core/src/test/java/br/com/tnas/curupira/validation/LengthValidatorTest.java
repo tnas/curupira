@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleValidationMessage;
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.InvalidStateException;
 import br.com.tnas.curupira.validator.LengthValidator;
@@ -52,8 +51,7 @@ public class LengthValidatorTest {
         final ValidationMessage validationMessage = new SimpleValidationMessage(message);
         mockery.checking(new Expectations() {
             {
-                oneOf(messageProducer).getMessage(with(equal(ValidationError.INVALID_LENGTH)), 
-                		with(equal(Validatable.Length)));
+                oneOf(messageProducer).getMessage(with(equal(ValidationError.Length$INVALID_LENGTH)));
                 will(returnValue(validationMessage));
             }
         });

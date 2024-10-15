@@ -1,15 +1,14 @@
 package br.com.tnas.curupira.validator.rule;
 
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validation.error.Validatable;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.validation.error.InvalidValue;
 
 public class RepeatedDigitsRule extends ValidationRule {
 
     private final boolean isIgnoringRepeatedDigits;
 
-    public RepeatedDigitsRule(Formatter formatter, Validatable validatable, boolean isIgnoringRepeatedDigits) {
-    	super(formatter, validatable);
+    public RepeatedDigitsRule(Formatter formatter, InvalidValue invalidValue, boolean isIgnoringRepeatedDigits) {
+    	super(formatter, invalidValue);
         this.isIgnoringRepeatedDigits = isIgnoringRepeatedDigits;
     }
 
@@ -17,9 +16,4 @@ public class RepeatedDigitsRule extends ValidationRule {
     public boolean validate(String value) {
         return this.isIgnoringRepeatedDigits || this.formatter.unformat(value).chars().distinct().count() > 1;
     }
-    
-    @Override
-	public ValidationError getValidationError() {
-		return ValidationError.REPEATED_DIGITS;
-	}
 }

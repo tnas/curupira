@@ -10,7 +10,7 @@ import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.TituloEleitoralFormatter;
 import br.com.tnas.curupira.type.Estado;
-import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
 import br.com.tnas.curupira.validator.rule.ElectoralStateCodeRule;
 import br.com.tnas.curupira.validator.rule.FormattingRule;
@@ -174,10 +174,10 @@ public class TituloEleitoralValidator extends DocumentoValidator<TituloEleitoral
 	protected List<ValidationRule> getValidationRules() {
 		return List.of(
 				new NullRule(),
-				new FormattingRule(formatter, Validatable.TituloEleitoral, this.isFormatted),
-				new UnformattingRule(formatter, Validatable.TituloEleitoral),
-				new ElectoralStateCodeRule(formatter, Validatable.TituloEleitoral),
-				new CheckDigitsRule(formatter, Validatable.TituloEleitoral, this::computeCheckDigits)
+				new FormattingRule(formatter, ValidationError.TituloEleitoral$INVALID_FORMAT, this.isFormatted),
+				new UnformattingRule(formatter, ValidationError.TituloEleitoral$INVALID_DIGITS),
+				new ElectoralStateCodeRule(formatter, ValidationError.TituloEleitoral$INVALID_STATE_CODE),
+				new CheckDigitsRule(formatter, ValidationError.TituloEleitoral$INVALID_CHECK_DIGITS, this::computeCheckDigits)
 		);
 	}
 }

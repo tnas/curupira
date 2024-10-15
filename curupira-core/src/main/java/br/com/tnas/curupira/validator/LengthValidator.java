@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
-import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validation.error.ValidationError;
 
 /**
@@ -59,7 +58,7 @@ public class LengthValidator implements Validator<Object> {
     	List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
     	
     	if (Objects.isNull(object) || object.toString().length() != validLength) {
-    		messages.add(this.base.getValidationMessage(ValidationError.INVALID_LENGTH, Validatable.Length));
+    		messages.addAll(this.base.generateValidationMessages(List.of(ValidationError.Length$INVALID_LENGTH)));
     	}
     	
         return messages;

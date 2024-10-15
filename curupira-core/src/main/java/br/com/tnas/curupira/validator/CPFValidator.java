@@ -6,7 +6,7 @@ import br.com.tnas.curupira.DigitoPara;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.CPFFormatter;
-import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
 import br.com.tnas.curupira.validator.rule.FormattingRule;
 import br.com.tnas.curupira.validator.rule.NullRule;
@@ -122,10 +122,10 @@ public class CPFValidator extends DocumentoValidator<CPFFormatter> {
     protected List<ValidationRule> getValidationRules() {
         return List.of(
         		new NullRule(),
-                new FormattingRule(formatter, Validatable.CPF, this.isFormatted),
-                new UnformattingRule(formatter, Validatable.CPF),
-                new RepeatedDigitsRule(formatter, Validatable.CPF, this.isIgnoringRepeatedDigits),
-                new CheckDigitsRule(formatter, Validatable.CPF, this::computeCheckDigits)
+                new FormattingRule(formatter, ValidationError.CPF$INVALID_FORMAT, this.isFormatted),
+                new UnformattingRule(formatter, ValidationError.CPF$INVALID_DIGITS),
+                new RepeatedDigitsRule(formatter, ValidationError.CPF$REPEATED_DIGITS, this.isIgnoringRepeatedDigits),
+                new CheckDigitsRule(formatter, ValidationError.CPF$INVALID_CHECK_DIGITS, this::computeCheckDigits)
         );
     }
 }

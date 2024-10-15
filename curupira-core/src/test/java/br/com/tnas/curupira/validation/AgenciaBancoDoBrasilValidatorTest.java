@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import br.com.tnas.curupira.BasicMessageProducer;
 import br.com.tnas.curupira.MessageProducer;
-import br.com.tnas.curupira.validation.error.Validatable;
 import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.AgenciaBancoDoBrasilValidator;
 import br.com.tnas.curupira.validator.InvalidStateException;
@@ -54,7 +53,7 @@ class AgenciaBancoDoBrasilValidatorTest {
 			validator.assertValid("2121-9");
 			fail();
 		} catch (InvalidStateException e) {
-			e.getInvalidMessages().contains(this.messageProducer.getMessage(ValidationError.INVALID_CHECK_DIGITS, Validatable.AgenciaBancoDoBrasil));
+			e.getInvalidMessages().contains(this.messageProducer.getMessage(ValidationError.AgenciaBancoDoBrasil$INVALID_CHECK_DIGITS));
 		}
 	}
 	
@@ -67,7 +66,7 @@ class AgenciaBancoDoBrasilValidatorTest {
 			validator.assertValid("1103");
 			fail();
 		} catch (InvalidStateException e) {
-			e.getInvalidMessages().contains(this.messageProducer.getMessage(ValidationError.INVALID_CHECK_DIGITS, Validatable.AgenciaBancoDoBrasil));
+			e.getInvalidMessages().contains(this.messageProducer.getMessage(ValidationError.AgenciaBancoDoBrasil$INVALID_CHECK_DIGITS));
 		}
 	}
 }

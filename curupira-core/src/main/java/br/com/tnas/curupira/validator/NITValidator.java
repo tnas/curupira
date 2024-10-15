@@ -5,7 +5,7 @@ import java.util.List;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.format.NITFormatter;
-import br.com.tnas.curupira.validation.error.Validatable;
+import br.com.tnas.curupira.validation.error.ValidationError;
 import br.com.tnas.curupira.validator.rule.CheckDigitsRule;
 import br.com.tnas.curupira.validator.rule.FormattingRule;
 import br.com.tnas.curupira.validator.rule.NullRule;
@@ -69,9 +69,9 @@ public class NITValidator extends DocumentoValidator<NITFormatter> {
 	protected List<ValidationRule> getValidationRules() {
 		return List.of(
 				new NullRule(),
-				new FormattingRule(formatter, Validatable.NIT, this.isFormatted),
-				new UnformattingRule(formatter, Validatable.NIT),
-				new CheckDigitsRule(formatter, Validatable.NIT, this::computeCheckDigits)
+				new FormattingRule(formatter, ValidationError.NIT$INVALID_FORMAT, this.isFormatted),
+				new UnformattingRule(formatter, ValidationError.NIT$INVALID_DIGITS),
+				new CheckDigitsRule(formatter, ValidationError.NIT$INVALID_CHECK_DIGITS, this::computeCheckDigits)
 		);
 	}
 }

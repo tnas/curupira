@@ -4,31 +4,28 @@ import br.com.tnas.curupira.BasicMessageProducer;
 import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.format.Formatter;
-import br.com.tnas.curupira.validation.error.Validatable;
-import br.com.tnas.curupira.validation.error.ValidationError;
+import br.com.tnas.curupira.validation.error.InvalidValue;
 
 public abstract class ValidationRule {
 
 	protected Formatter formatter;
 	
-    private Validatable validatable;
+    private InvalidValue invalidValue;
     private MessageProducer messageProducer;
 
-    protected ValidationRule() {
+    protected ValidationRule(InvalidValue invalidValue) {
+    	this.invalidValue = invalidValue;
     	this.messageProducer = new BasicMessageProducer();
     }
     
-    protected ValidationRule(Formatter formatter, Validatable validatable) {
-    	this();
+    protected ValidationRule(Formatter formatter, InvalidValue invalidValue) {
+    	this(invalidValue);
     	this.formatter = formatter;
-    	this.validatable = validatable;
     }
     
     public ValidationMessage getErrorMessage() {
-    	return messageProducer.getMessage(this.getValidationError(), this.validatable);
+    	return messageProducer.getMessage(this.invalidValue);
     }
     
     public abstract boolean validate(String value);
-    
-    public abstract ValidationError getValidationError();
 }

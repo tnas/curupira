@@ -7,8 +7,6 @@ import br.com.tnas.curupira.MessageProducer;
 import br.com.tnas.curupira.SimpleMessageProducer;
 import br.com.tnas.curupira.ValidationMessage;
 import br.com.tnas.curupira.validation.error.InvalidValue;
-import br.com.tnas.curupira.validation.error.Validatable;
-import br.com.tnas.curupira.validation.error.ValidationError;
 
 /**
  * <p>
@@ -52,10 +50,6 @@ public class BaseValidator {
     	return invalidValues.stream().map(e -> this.messageProducer.getMessage(e)).toList();
     }
 
-    public List<ValidationMessage> getValidationMessages(List<ValidationError> errors) {
-    	return errors.stream().map(e -> this.messageProducer.getMessage(e)).toList();
-    }
-    
     /**
      * @param invalidValues
      *            lista de valores que descrevem erros de validação.
@@ -68,8 +62,4 @@ public class BaseValidator {
         }
     }
     
-	protected ValidationMessage getValidationMessage(ValidationError error, Validatable validatable) {
-		return this.messageProducer.getMessage(error, validatable);
-	}
-
 }

@@ -1,8 +1,6 @@
 package br.com.tnas.curupira;
 
 import br.com.tnas.curupira.validation.error.InvalidValue;
-import br.com.tnas.curupira.validation.error.Validatable;
-import br.com.tnas.curupira.validation.error.ValidationError;
 
 /**
  * <p>
@@ -23,12 +21,4 @@ public interface MessageProducer {
      * @return mensagem de validação associada ao erro.
      */
     ValidationMessage getMessage(InvalidValue invalidValue);
-    
-    default ValidationMessage getMessage(ValidationError invalidValue, Validatable validatable) {
-    	throw new UnsupportedOperationException();
-    }
-    
-    default ValidationMessage getMessage(ValidationError invalidValue) {
-    	throw new UnsupportedOperationException();
-    }
 }
